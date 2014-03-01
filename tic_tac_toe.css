@@ -1,0 +1,39 @@
+.rows {
+  margin-left: 50px;
+}
+
+#row1 span1 {
+  font-size: 100px;
+}
+
+#row2 span1 {
+  font-size: 100px;
+}
+
+#row3 span1 {
+  font-size: 100px;
+}
+
+#row1 span2 {
+  font-size: 100px;
+}
+
+#row2 span2 {
+  font-size: 100px;
+}
+
+#row3 span2 {
+  font-size: 100px;
+}
+
+#row1 span0 {
+  font-size: 100px;
+}
+
+#row2 span0 {
+  font-size: 100px;
+}
+
+#row3 span0 {
+  font-size: 100px;
+}
