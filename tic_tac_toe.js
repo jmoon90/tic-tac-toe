@@ -2,8 +2,8 @@ var first_row = ['+','+','+'];
 var second_row = ['+','+','+'];
 var third_row = ['+','+','+'];
 
-var player1_wins = ['o','o','o'];
-var player2_wins = ['x','x','x'];
+var player1_wins = 'ooo';
+var player2_wins = 'xxx';
 
 var players = ['o','x'];
 var counter = 0;
@@ -12,10 +12,38 @@ function countClick() {
   counter++;
 }
 
-function check() {
-  if(first_row = player1_wins) {
+//check_row
+function checkRow() {
+  if($("#row1").text() == player1_wins || $("#row2").text() == player1_wins || $("#row3").text() == player1_wins) {
     alert("Player 1 wins");
-  } else if(first_row = player2_wins) {
+  } else if($("#row1").text() == player2_wins ||
+            $("#row2").text() == player2_wins ||
+            $("#row3").text() == player2_wins) {
+    alert("Player 2 wins");
+  };
+}
+
+//check_column
+function checkColumn() {
+  i = 0
+  while(i < 3) {
+    var column = $("#row1").text()[i] + $("#row2").text()[i] + $("#row3").text()[i]
+    if(column == player1_wins) {
+      alert("Player 1 wins");
+    } else if(column == player2_wins) {
+      alert("Player 2 wins");
+    };
+    i++
+  }
+}
+
+//check_diagonally
+function checkDiagonal() {
+  var diagonal_right = $("#row1").text()[0] + $("#row2").text()[1] + $("#row3").text()[2]
+  var diagonal_left = $("#row1").text()[2] + $("#row2").text()[1] + $("#row3").text()[0]
+  if(diagonal_right == player1_wins || diagonal_left == player1_wins) {
+    alert("Player 1 wins");
+  } else if(diagonal_right == player2_wins || diagonal_left == player2_wins) {
     alert("Player 2 wins");
   }
 }
@@ -50,27 +78,25 @@ onload = function()
       if ($("#row1 span0")[0].innerHTML == "+") {
         $("#row1 span0")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+      counter = counter - 1;
       };
     });
   });
-
   $(document).ready(function(){
     $("#row1 span1").click(function(){
       if ($("#row1 span1")[0].innerHTML == "+") {
         $("#row1 span1")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+      counter = counter - 1;
       };
     });
   });
-
   $(document).ready(function(){
     $("#row1 span2").click(function(){
       if ($("#row1 span2")[0].innerHTML == "+") {
         $("#row1 span2")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+      counter = counter - 1;
       };
     });
   });
@@ -81,27 +107,25 @@ onload = function()
       if ($("#row2 span0")[0].innerHTML == "+") {
         $("#row2 span0")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+        counter = counter - 1;
       };
     });
   });
-
   $(document).ready(function(){
     $("#row2 span1").click(function(){
       if ($("#row2 span1")[0].innerHTML == "+") {
         $("#row2 span1")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+      counter = counter - 1;
       };
     });
   });
-
   $(document).ready(function(){
     $("#row2 span2").click(function(){
       if ($("#row2 span2")[0].innerHTML == "+") {
         $("#row2 span2")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+      counter = counter - 1;
       };
     });
   });
@@ -112,27 +136,25 @@ onload = function()
       if ($("#row3 span0")[0].innerHTML == "+") {
         $("#row3 span0")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+        counter = counter - 1;
       };
     });
   });
-
   $(document).ready(function(){
     $("#row3 span1").click(function(){
       if ($("#row3 span1")[0].innerHTML == "+") {
         $("#row3 span1")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+        counter = counter - 1;
       };
     });
   });
-
   $(document).ready(function(){
     $("#row3 span2").click(function(){
       if ($("#row3 span2")[0].innerHTML == "+") {
         $("#row3 span2")[0].innerHTML = players[counter % 2];
       } else {
-      counter - 1;
+        counter = counter - 1;
       };
     });
   });
