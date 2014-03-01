@@ -12,14 +12,35 @@ function countClick() {
   counter++;
 }
 
+//check_board
+function checkBoard() {
+  i = 1
+  var space_left = 0
+  while(i < 4) {
+    for(n = 0; n < 3; n++) {
+      if($("#row" + i).text()[n] == "+") {
+        space_left++;
+      }
+    }
+    i++;
+  }
+  if(space_left == 0) {
+    if(confirm("Tie game! Nobody wins. Play again?")) {
+      return location.reload();
+    };
+  }
+}
+
 //check_row
 function checkRow() {
   if($("#row1").text() == player1_wins || $("#row2").text() == player1_wins || $("#row3").text() == player1_wins) {
     alert("Player 1 wins");
+    return location.reload();
   } else if($("#row1").text() == player2_wins ||
             $("#row2").text() == player2_wins ||
             $("#row3").text() == player2_wins) {
     alert("Player 2 wins");
+    return location.reload();
   };
 }
 
@@ -30,8 +51,10 @@ function checkColumn() {
     var column = $("#row1").text()[i] + $("#row2").text()[i] + $("#row3").text()[i]
     if(column == player1_wins) {
       alert("Player 1 wins");
+      return location.reload();
     } else if(column == player2_wins) {
       alert("Player 2 wins");
+      return location.reload();
     };
     i++
   }
@@ -43,8 +66,10 @@ function checkDiagonal() {
   var diagonal_left = $("#row1").text()[2] + $("#row2").text()[1] + $("#row3").text()[0]
   if(diagonal_right == player1_wins || diagonal_left == player1_wins) {
     alert("Player 1 wins");
+    return location.reload();
   } else if(diagonal_right == player2_wins || diagonal_left == player2_wins) {
     alert("Player 2 wins");
+    return location.reload();
   }
 }
 
