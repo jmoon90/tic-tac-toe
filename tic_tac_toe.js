@@ -10,7 +10,8 @@ var players = ['o','x'];
 
 var first_move = 'who'
 
-var counter = Math.floor((Math.random()*2)+1);
+//var counter = Math.floor((Math.random()*2)+1);
+ var counter = 1
 
 
 function pageLoad() {
@@ -44,6 +45,7 @@ function pageLoad() {
       state.splice(0, 3);
       while(i < 4) {
         for(n = 0; n < 3; n++) {
+
          //checking rows if computer can win
           if(state[i] == "+xx") {
             counter++;
@@ -60,6 +62,7 @@ function pageLoad() {
             var r = i+1
             return $('#row' +r+ ' span2')[0].innerHTML = 'x';
           };
+
         //checking columns if computer can win
           if([state[0][i] == "x" && state[1][i] =='x' && state[2][i]] == '+') {
             counter++
@@ -73,6 +76,7 @@ function pageLoad() {
             counter++
             return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
           }
+
           //checking top left diagonal if computer can win
           if([state[0][0] == "+" && state[1][1] =='x' && state[2][2]] == 'x') {
             counter++
@@ -234,6 +238,10 @@ function pageLoad() {
           }
         };
         i++;
+        checkDiagonal();
+        checkColumn();
+        checkRow();
+        checkBoard();
       };
 
       i = 0
@@ -300,16 +308,30 @@ function pageLoad() {
         };
         i++;
       };
-
+//duplicate from counter == 7
       i = 0
       while(i < 4) {
-        for(n = 0; n < 3; n++) {
-          if(state[i][n] == "o") {
+        if(state[i] == "++x") {
+          counter++
+          r = i + 1;
+          return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+        } else if(state[i] == "+x+") {
+          counter++
+          r = i + 1;
+          return $('#row' +r+ ' span0')[0].innerHTML = 'x';
+        } else if(state[i] == "x++") {
+          counter++
+          r = i + 1;
+          return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+        } else if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'x') {
             counter++
-            r = i + 1;
-            c = n + 1;
-            return $('#row' +r+ ' span'+c)[0].innerHTML = 'x';
-          };
+            return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+        } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == '+') {
+            counter++
+            return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+        } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == '+') {
+            counter++
+            return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
         };
         i++;
       };
@@ -404,7 +426,6 @@ function pageLoad() {
             return $('#row' +r+ ' span0')[0].innerHTML = 'x';
           }
           if(state[i] == "o+o") {
-            alert('this hit?');
             var r = i+1
             return $('#row' +r+ ' span1')[0].innerHTML = 'x';
           }
@@ -574,6 +595,8 @@ function pageLoad() {
         i++;
       };
 
+      //When there are no winning hands. Computer should place piece
+      //next to his own piece
       i = 0
       while(i < 4) {
         if(state[i] == "++x") {
@@ -588,19 +611,15 @@ function pageLoad() {
           counter++
           r = i + 1;
           return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-        } else if(state[i] == "o++") {
-          counter++
-          r = i + 1;
-          return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-        } else if(state[i] == "+o+") {
-          counter++
-          r = i + 1;
-          return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-        i++;
-        } else if(state[i] == "++o") {
-          counter++
-          r = i + 1;
-          return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+        } else if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'x') {
+            counter++
+            return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+        } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == '+') {
+            counter++
+            return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+        } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == '+') {
+            counter++
+            return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
         };
         i++;
       };
