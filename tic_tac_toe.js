@@ -157,6 +157,7 @@ var computer_moves_first = function() {
       check_row_if_computer_wins(i);
       check_column_if_computer_wins(i);
       check_diagonal_if_computer_wins();
+      checkTie();
     };
     i++;
   };
@@ -223,6 +224,7 @@ var computer_moves_first = function() {
     i++;
   };
   when_no_players_have_adjacent_pieces();
+  checkTie();
 }
 
 var computer_goes_second = function() {
@@ -299,6 +301,7 @@ var computer_goes_second = function() {
     i++;
   };
   when_no_players_have_adjacent_pieces();
+  checkTie();
 }
 
 
