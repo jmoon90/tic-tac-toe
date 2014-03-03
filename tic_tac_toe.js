@@ -10,7 +10,8 @@ var players = ['o','x'];
 
 var first_move = 'who'
 
-var counter = Math.floor((Math.random()*2)+1);
+//var counter = Math.floor((Math.random()*2)+1);
+var counter = 1
 
 var check_row_if_computer_wins = function(i) {
   if(state[i] == "+xx") {
@@ -18,14 +19,12 @@ var check_row_if_computer_wins = function(i) {
     var r = i+1
     $('#row' +r+ ' span0')[0].innerHTML = 'x';
     return checkRow();
-  }
-  if(state[i] == "x+x") {
+  } else if(state[i] == "x+x") {
     counter++;
     var r = i+1
     $('#row' +r+ ' span1')[0].innerHTML = 'x';
     return checkRow();
-  }
-  if(state[i] == "xx+") {
+  } else if(state[i] == "xx+") {
     counter++;
     var r = i+1
     $('#row' +r+ ' span2')[0].innerHTML = 'x';
@@ -38,13 +37,11 @@ var check_column_if_computer_wins = function(i) {
     counter++
     $('#row3'+ ' span'+i)[0].innerHTML = 'x';
     return checkColumn();
-  }
-  if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == 'x') {
+  } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == 'x') {
     counter++
     $('#row2'+ ' span'+i)[0].innerHTML = 'x';
     return checkColumn();
-  }
-  if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == 'x') {
+  } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == 'x') {
     counter++
     $('#row1'+ ' span'+i)[0].innerHTML = 'x';
     return checkColumn();
@@ -56,43 +53,28 @@ var check_diagonal_if_computer_wins = function() {
     counter++
     $('#row1' + ' span0')[0].innerHTML = 'x';
     return checkDiagonal();
-  }
-  if([state[0][0] == "x" && state[1][1] =='+' && state[2][2]] == 'x') {
+  } else if([state[0][0] == "x" && state[1][1] =='+' && state[2][2]] == 'x') {
     counter++
     $('#row2'+ ' span1')[0].innerHTML = 'x';
     return checkDiagonal();
-  }
-  if([state[0][0] == "x" && state[1][1] =='x' && state[2][2]] == '+') {
+  } else if([state[0][0] == "x" && state[1][1] =='x' && state[2][2]] == '+') {
     counter++
     $('#row3'+ ' span2')[0].innerHTML = 'x';
     return checkDiagonal();
-  }
-
-  if([state[2][0] == "+" && state[1][1] =='x' && state[0][2]] == 'x') {
+  } else if([state[2][0] == "+" && state[1][1] =='x' && state[0][2]] == 'x') {
     counter++
     $('#row3' + ' span0')[0].innerHTML = 'x';
     return checkDiagonal();
-  }
-  if([state[2][0] == "x" && state[1][1] =='+' && state[0][2]] == 'x') {
+  } else if([state[2][0] == "x" && state[1][1] =='+' && state[0][2]] == 'x') {
     counter++
     $('#row2'+ ' span1')[0].innerHTML = 'x';
     return checkDiagonal();
-  }
-  if([state[2][0] == "x" && state[1][1] =='x' && state[0][2]] == '+') {
+  } else if([state[2][0] == "x" && state[1][1] =='x' && state[0][2]] == '+') {
     counter++
     $('#row1'+ ' span2')[0].innerHTML = 'x';
     return checkDiagonal();
   };
 };
-
-var check_row_to_prevent_player_from_winning = function(i) {
-}
-
-var check_column_to_prevent_player_from_winning = function(i) {
-}
-
-var check_diagonal_to_prevent_player_from_winning = function() {
-}
 
 var when_no_players_have_adjacent_pieces = function() {
   i = 0
@@ -100,24 +82,30 @@ var when_no_players_have_adjacent_pieces = function() {
     if(state[i] == "++x") {
       counter++
       r = i + 1;
-      return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      return checkTie();
     } else if(state[i] == "+x+") {
       counter++
       r = i + 1;
-      return $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      return checkTie();
     } else if(state[i] == "x++") {
       counter++
       r = i + 1;
-      return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      return checkTie();
     } else if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'x') {
-        counter++
-        return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      counter++
+      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      return checkTie();
     } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == '+') {
-        counter++
-        return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      counter++
+      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      return checkTie();
     } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == '+') {
-        counter++
-        return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      counter++
+      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      return checkTie();
     };
     i++;
   };
@@ -153,89 +141,80 @@ var computer_moves_first = function() {
   i = 0
   state.splice(0, 3);
   while(i < 4) {
-    for(n = 0; n < 3; n++) {
-      check_row_if_computer_wins(i);
-      check_column_if_computer_wins(i);
-      check_diagonal_if_computer_wins();
-      checkTie();
-    };
+    check_row_if_computer_wins(i);
+    check_column_if_computer_wins(i);
+    check_diagonal_if_computer_wins();
     i++;
   };
 
   i = 0
   while(i < 4) {
-    for(n = 0; n < 3; n++) {
-      //checking rows to prevent player form winning
-      if(state[i] == "+oo") {
-        counter++;
-        var r = i+1
-        return $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      }
-      if(state[i] == "o+o") {
-        counter++;
-        var r = i+1
-        return $('#row' +r+ ' span1')[0].innerHTML = 'x';
-      }
-      if(state[i] == "oo+") {
-        counter++;
-        var r = i+1
-        return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      }
-      //checking columns to prevent player from winning
-      if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
-        counter++
-        return $('#row3'+ ' span'+i)[0].innerHTML = 'x';
-      }
-      if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
-        counter++
-        return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-      }
-      if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
-        counter++
-        return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
-      }
-      //diagonal to prevent player from winning
-      if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
-        counter++
-        return $('#row3' + ' span0')[0].innerHTML = 'x';
-      }
-      if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
-        counter++
-        return $('#row2'+ ' span1')[0].innerHTML = 'x';
-      }
-      if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
-        counter++
-        return $('#row1'+ ' span2')[0].innerHTML = 'x';
-      }
-
-      if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
-        counter++
-        return $('#row1' + ' span0')[0].innerHTML = 'x';
-      }
-      if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
-        counter++
-        return $('#row2'+ ' span1')[0].innerHTML = 'x';
-      }
-      if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
-        counter++
-        return $('#row3'+ ' span2')[0].innerHTML = 'x';
-      }
-    };
+    //checking rows to prevent player form winning
+    if(state[i] == "+oo") {
+      counter++;
+      var r = i+1
+      return $('#row' +r+ ' span0')[0].innerHTML = 'x';
+    }
+    if(state[i] == "o+o") {
+      counter++;
+      var r = i+1
+      return $('#row' +r+ ' span1')[0].innerHTML = 'x';
+    }
+    if(state[i] == "oo+") {
+      counter++;
+      var r = i+1
+      return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+    }
+    //checking columns to prevent player from winning
+    if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
+      counter++
+      return $('#row3'+ ' span'+i)[0].innerHTML = 'x';
+    }
+    if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
+      counter++
+      return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+    }
+    if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
+      counter++
+      return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+    }
+    //diagonal to prevent player from winning
+    if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
+      counter++
+      return $('#row3' + ' span0')[0].innerHTML = 'x';
+    }
+    if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
+      counter++
+      return $('#row2'+ ' span1')[0].innerHTML = 'x';
+    }
+    if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
+      counter++
+      return $('#row1'+ ' span2')[0].innerHTML = 'x';
+    }
+    if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
+      counter++
+      return $('#row1' + ' span0')[0].innerHTML = 'x';
+    }
+    if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
+      counter++
+    return $('#row2'+ ' span1')[0].innerHTML = 'x';
+    }
+    if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
+      counter++
+      return $('#row3'+ ' span2')[0].innerHTML = 'x';
+    }
     i++;
   };
   when_no_players_have_adjacent_pieces();
-  checkTie();
 }
 
 var computer_goes_second = function() {
   state.splice(0, 3);
   i = 0
   while(i < 4) {
-    for(n = 0; n < 3; n++) {
-      check_row_if_computer_wins(i);
-      check_column_if_computer_wins(i);
-      check_diagonal_if_computer_wins();
-    };
+    check_row_if_computer_wins(i);
+    check_column_if_computer_wins(i);
+    check_diagonal_if_computer_wins();
     i++;
   };
 
@@ -301,10 +280,9 @@ var computer_goes_second = function() {
     i++;
   };
   when_no_players_have_adjacent_pieces();
-  checkTie();
 }
 
-
+//Turn by turn game play
 function pageLoad() {
   if(counter == 3){
     //computer 2nd move after going first
@@ -347,6 +325,7 @@ function pageLoad() {
     //computers last move after going 1st
     if(first_move == 'computer') {
       computer_moves_first();
+      checkTie();
     } else {
       computer_goes_second();
     };
@@ -363,7 +342,7 @@ function firstMove() {
     first_move = 'player'
     alert("Player goes first");
   };
-}
+};
 
 function countClick() {
   counter++;
