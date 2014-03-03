@@ -10,8 +10,7 @@ var players = ['o','x'];
 
 var first_move = 'who'
 
-//var counter = Math.floor((Math.random()*2)+1);
-var counter = 1
+var counter = Math.floor((Math.random()*2)+1);
 
 var check_row_if_computer_wins = function(i) {
   if(state[i] == "+xx") {
