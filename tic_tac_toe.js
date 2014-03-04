@@ -152,55 +152,79 @@ var computer_moves_first = function() {
     if(state[i] == "+oo") {
       counter++;
       var r = i+1
-      return $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      $('#row' +r+ ' span0').hide();
+      $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      return $('#row' +r+ ' span0').fadeIn(1000);
     }
     if(state[i] == "o+o") {
       counter++;
       var r = i+1
-      return $('#row' +r+ ' span1')[0].innerHTML = 'x';
+      $('#row' +r+ ' span1').hide();
+      $('#row' +r+ ' span1')[0].innerHTML = 'x';
+      return $('#row' +r+ ' span1').fadeIn(1000);
     }
     if(state[i] == "oo+") {
       counter++;
       var r = i+1
-      return $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      $('#row' +r+ ' span2').hide();
+      $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      return $('#row' +r+ ' span2').fadeIn(1000);
     }
     //checking columns to prevent player from winning
     if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
       counter++
-      return $('#row3'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row3'+ ' span'+i).hide();
+      $('#row3'+ ' span'+i)[0].innerHTML = 'x';
+      return $('#row3'+ ' span'+i).fadeIn(1000);
     }
     if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
       counter++
-      return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row2'+ ' span'+i).hide();
+      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      return $('#row2'+ ' span'+i).fadeIn(1000);
     }
     if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
       counter++
-      return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row1'+ ' span'+i).hide();
+      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      return $('#row1'+ ' span'+i).fadeIn(1000);
     }
     //diagonal to prevent player from winning
     if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
       counter++
-      return $('#row3' + ' span0')[0].innerHTML = 'x';
+      $('#row3' + ' span0').hide();
+      $('#row3' + ' span0')[0].innerHTML = 'x';
+      return $('#row3' + ' span0').fadeIn(1000);
     }
     if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
       counter++
-      return $('#row2'+ ' span1')[0].innerHTML = 'x';
+      $('#row2'+ ' span1').hide();
+      $('#row2'+ ' span1')[0].innerHTML = 'x';
+      return $('#row2'+ ' span1').fadeIn(1000);
     }
     if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
       counter++
-      return $('#row1'+ ' span2')[0].innerHTML = 'x';
+      $('#row1'+ ' span2').hide();
+      $('#row1'+ ' span2')[0].innerHTML = 'x';
+      return $('#row1'+ ' span2').fadeIn(1000);
     }
     if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
       counter++
-      return $('#row1' + ' span0')[0].innerHTML = 'x';
+      $('#row1' + ' span0').hide();
+      $('#row1' + ' span0')[0].innerHTML = 'x';
+      return $('#row1' + ' span0').fadeIn(1000);
     }
     if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
       counter++
-    return $('#row2'+ ' span1')[0].innerHTML = 'x';
+      $('#row2'+ ' span1').hide();
+      $('#row2'+ ' span1')[0].innerHTML = 'x';
+      return $('#row2'+ ' span1').fadeIn(1000);
     }
     if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
       counter++
-      return $('#row3'+ ' span2')[0].innerHTML = 'x';
+      $('#row3'+ ' span2').hide();
+      $('#row3'+ ' span2')[0].innerHTML = 'x';
+      return $('#row3'+ ' span2').fadeIn(1000);
     }
     i++;
   };
@@ -219,63 +243,84 @@ var computer_goes_second = function() {
 
   i = 0
   while(i < 4) {
-    for(n = 0; n < 3; n++) {
-      //checking rows to prevent player form winning
-      if(state[i] == "+oo") {
-        counter++;
-        var r = i+1
-        return $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      }
-      if(state[i] == "o+o") {
-        counter++;
-        var r = i+1
-        return $('#row' +r+ ' span1')[0].innerHTML = 'x';
-      }
-      if(state[i] == "oo+") {
-        counter++;
-        var r = i+1
-        return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      }
-      //checking columns to prevent player from winning
-      if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
-        counter++
-        return $('#row3'+ ' span'+i)[0].innerHTML = 'x';
-      }
-      if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
-        counter++
-        return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-      }
-      if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
-        counter++
-        return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
-      }
-      //diagonal to prevent player from winning
-      if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
-        counter++
-        return $('#row3' + ' span0')[0].innerHTML = 'x';
-      }
-      if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
-        counter++
-        return $('#row2'+ ' span1')[0].innerHTML = 'x';
-      }
-      if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
-        counter++
-        return $('#row1'+ ' span2')[0].innerHTML = 'x';
-      }
-
-      if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
-        counter++
-        return $('#row1' + ' span0')[0].innerHTML = 'x';
-      }
-      if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
-        counter++
-        return $('#row2'+ ' span1')[0].innerHTML = 'x';
-      }
-      if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
-        counter++
-        return $('#row3'+ ' span2')[0].innerHTML = 'x';
-      }
-    };
+    //checking rows to prevent player form winning
+    if(state[i] == "+oo") {
+      counter++;
+      var r = i+1
+      $('#row' +r+ ' span0').hide();
+      $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      return $('#row' +r+ ' span0').fadeIn(1000);
+    }
+    if(state[i] == "o+o") {
+      counter++;
+      var r = i+1
+      $('#row' +r+ ' span1').hide();
+      $('#row' +r+ ' span1')[0].innerHTML = 'x';
+      return $('#row' +r+ ' span1').fadeIn(1000);
+    }
+    if(state[i] == "oo+") {
+      counter++;
+      var r = i+1
+      $('#row' +r+ ' span2').hide();
+      $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      return $('#row' +r+ ' span2').fadeIn(1000);
+    }
+    //checking columns to prevent player from winning
+    if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
+      counter++
+      $('#row3'+ ' span'+i).hide();
+      $('#row3'+ ' span'+i)[0].innerHTML = 'x';
+      return $('#row3'+ ' span'+i).fadeIn(1000);
+    }
+    if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
+      counter++
+      $('#row2'+ ' span'+i).hide();
+      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      return $('#row2'+ ' span'+i).fadeIn(1000);
+    }
+    if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
+      counter++
+      $('#row1'+ ' span'+i).hide();
+      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      return $('#row1'+ ' span'+i).fadeIn(1000);
+    }
+    //diagonal to prevent player from winning
+    if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
+      counter++
+      $('#row3' + ' span0').hide();
+      $('#row3' + ' span0')[0].innerHTML = 'x';
+      return $('#row3' + ' span0').fadeIn(1000);
+    }
+    if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
+      counter++
+      $('#row2'+ ' span1').hide();
+      $('#row2'+ ' span1')[0].innerHTML = 'x';
+      return $('#row2'+ ' span1').fadeIn(1000);
+    }
+    if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
+      counter++
+      $('#row1'+ ' span2').hide();
+      $('#row1'+ ' span2')[0].innerHTML = 'x';
+      return $('#row1'+ ' span2').fadeIn(1000);
+    }
+    if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
+      counter++
+      $('#row1' + ' span0').hide();
+      $('#row1' + ' span0')[0].innerHTML = 'x';
+      return $('#row1' + ' span0').fadeIn(1000);
+    }
+    if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
+      counter++
+      $('#row2'+ ' span1').hide();
+      $('#row2'+ ' span1')[0].innerHTML = 'x';
+      return $('#row2'+ ' span1').fadeIn(1000);
+    }
+    if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
+      counter++
+      $('#row3'+ ' span2').hide();
+      $('#row3'+ ' span2')[0].innerHTML = 'x';
+      return $('#row3'+ ' span2').fadeIn(1000);
+    }
     i++;
   };
   when_no_players_have_adjacent_pieces();
@@ -288,19 +333,27 @@ function pageLoad() {
     if(first_move == 'computer') {
       if($("#row3 span2").text() == '+') {
         counter++;
-        return $("#row3 span2")[0].innerHTML = 'x';
+        $('#row3'+ ' span2').hide();
+        $("#row3 span2")[0].innerHTML = 'x';
+        return $('#row3'+ ' span2').fadeIn(1000);
       } else {
         counter++;
-        return $("#row3 span0")[0].innerHTML = "x";
+        $('#row3'+ ' span0').hide();
+        $("#row3 span0")[0].innerHTML = "x";
+        return $('#row3'+ ' span0').fadeIn(1000);
       };
     } else {
       //computer 1st move after going second
       if($("#row2 span1").text() == '+') {
         counter++;
-        return $("#row2 span1")[0].innerHTML = "x";
+        $("#row2 span1").hide();
+        $("#row2 span1")[0].innerHTML = "x";
+        return $("#row2 span1").fadeIn(1000);
       } else {
         counter++;
-        return $("#row1 span0")[0].innerHTML = "x";
+        $("#row1 span0").hide();
+        $("#row1 span0")[0].innerHTML = "x";
+        return $("#row1 span0").fadeIn(1000);
       };
     };
   } else if(counter == 5) {
@@ -324,7 +377,7 @@ function pageLoad() {
     //computers last move after going 1st
     if(first_move == 'computer') {
       computer_moves_first();
-      checkTie();
+      setInterval(function(){checkTie()},1200);
     } else {
       computer_goes_second();
     };
@@ -335,7 +388,9 @@ function firstMove() {
   if(players[counter % 2] == 'x'){
     alert("Computer goes first");
     first_move = 'computer'
+    $("#row1 span0").hide()
     $("#row1 span0")[0].innerHTML = "x";
+    $("#row1 span0").fadeIn(1000)
     counter++;
   } else {
     first_move = 'player'
@@ -404,12 +459,19 @@ function checkDiagonal() {
     return location.reload();
   } else if(diagonal_right == player2_wins || diagonal_left == player2_wins) {
     alert("Computer wins");
+    window.alert = setInterval(function() {}, 3000);
     return location.reload();
   }
 }
 
 onload = function()
 {
+  var push_to_state = function() {
+    state.push($("#row1").text());
+    state.push($("#row2").text());
+    return state.push($("#row3").text());
+  }
+
   var row_1 = document.getElementById('row1');
   var row_2 = document.getElementById('row2');
   var row_3 = document.getElementById('row3');
@@ -437,9 +499,7 @@ onload = function()
     $("#row1 span0").click(function(){
       if ($("#row1 span0")[0].innerHTML == "+") {
         $("#row1 span0")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
       counter = counter - 1;
       };
@@ -449,9 +509,7 @@ onload = function()
     $("#row1 span1").click(function(){
       if ($("#row1 span1")[0].innerHTML == "+") {
         $("#row1 span1")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
       counter = counter - 1;
       };
@@ -461,9 +519,7 @@ onload = function()
     $("#row1 span2").click(function(){
       if ($("#row1 span2")[0].innerHTML == "+") {
         $("#row1 span2")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
       counter = counter - 1;
       };
@@ -475,9 +531,7 @@ onload = function()
     $("#row2 span0").click(function(){
       if ($("#row2 span0")[0].innerHTML == "+") {
         $("#row2 span0")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
         counter = counter - 1;
       };
@@ -487,9 +541,7 @@ onload = function()
     $("#row2 span1").click(function(){
       if ($("#row2 span1")[0].innerHTML == "+") {
         $("#row2 span1")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
       counter = counter - 1;
       };
@@ -499,9 +551,7 @@ onload = function()
     $("#row2 span2").click(function(){
       if ($("#row2 span2")[0].innerHTML == "+") {
         $("#row2 span2")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
       counter = counter - 1;
       };
@@ -513,9 +563,7 @@ onload = function()
     $("#row3 span0").click(function(){
       if ($("#row3 span0")[0].innerHTML == "+") {
         $("#row3 span0")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
         counter = counter - 1;
       };
@@ -525,9 +573,7 @@ onload = function()
     $("#row3 span1").click(function(){
       if ($("#row3 span1")[0].innerHTML == "+") {
         $("#row3 span1")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
         counter = counter - 1;
       };
@@ -537,9 +583,7 @@ onload = function()
     $("#row3 span2").click(function(){
       if ($("#row3 span2")[0].innerHTML == "+") {
         $("#row3 span2")[0].innerHTML = players[counter % 2];
-        state.push($("#row1").text());
-        state.push($("#row2").text());
-        return state.push($("#row3").text());
+        push_to_state();
       } else {
         counter = counter - 1;
       };
