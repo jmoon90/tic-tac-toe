@@ -5,3 +5,6 @@
 never lose and it should win when possible.
 
 ##Language: Javascript
+
+Read my thoughts about this
+[project](https://svbtle.com/tictactoe-with-ai/edit)
