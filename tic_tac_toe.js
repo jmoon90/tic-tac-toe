@@ -8,11 +8,12 @@ var state = [];
 
 var players = ['o','x'];
 
-var first_move = 'who'
+var firstMove = 'who'
 
-var counter = Math.floor((Math.random()*2)+1);
+//var counter = Math.floor((Math.random()*2)+1);
+var counter = 2
 
-var check_row_if_computer_wins = function(i) {
+var checkRowIfComputerWins = function(i) {
   if(state[i] == "+xx") {
     counter++;
     var r = i+1
@@ -31,7 +32,7 @@ var check_row_if_computer_wins = function(i) {
   };
 }
 
-var check_column_if_computer_wins = function(i) {
+var checkColumnIfComputerWins = function(i) {
   if([state[0][i] == "x" && state[1][i] =='x' && state[2][i]] == '+') {
     counter++
     $('#row3'+ ' span'+i)[0].innerHTML = 'x';
@@ -47,7 +48,7 @@ var check_column_if_computer_wins = function(i) {
   }
 };
 
-var check_diagonal_if_computer_wins = function() {
+var checkDiagonalIfComputerWins = function() {
   if([state[0][0] == "+" && state[1][1] =='x' && state[2][2]] == 'x') {
     counter++
     $('#row1' + ' span0')[0].innerHTML = 'x';
@@ -75,62 +76,76 @@ var check_diagonal_if_computer_wins = function() {
   };
 };
 
-var when_no_players_have_adjacent_pieces = function() {
+var noPlayersHaveAdjacentPieces = function() {
   i = 0
   while(i < 4) {
     if(state[i] == "++x") {
       counter++
       r = i + 1;
+      $('#row' +r+ ' span2').hide();
       $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      $('#row' +r+ ' span2').fadeIn(1000);
       return checkTie();
     } else if(state[i] == "+x+") {
       counter++
       r = i + 1;
+      $('#row' +r+ ' span0').hide();
       $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      $('#row' +r+ ' span0').fadeIn(1000);
       return checkTie();
     } else if(state[i] == "x++") {
       counter++
       r = i + 1;
+      $('#row' +r+ ' span2').hide();
       $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      $('#row' +r+ ' span2').fadeIn(1000);
       return checkTie();
     } else if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'x') {
       counter++
+      $('#row2'+ ' span'+i).hide();
       $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row2'+ ' span'+i).fadeIn(1000);
       return checkTie();
     } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == '+') {
       counter++
+      $('#row2'+ ' span'+i).hide();
       $('#row2'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row2'+ ' span'+i).fadeIn(1000);
       return checkTie();
     } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == '+') {
       counter++
+      $('#row1'+ ' span'+i).hide();
       $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row1'+ ' span'+i).fadeIn(1000);
       return checkTie();
-    };
-    i++;
-  };
-  i = 0
-  while(i < 4) {
-    if(state[i] == "++o") {
+    } else if([state[0][i] == "+" && state[1][i+1] =='x' && state[2][i+2]] == '+') {
       counter++
-      r = i + 1;
-      return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-    } else if(state[i] == "+o+") {
+      r = i + 1
+      $('#row1'+ ' span'+i).hide();
+      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row1'+ ' span'+i).fadeIn(1000);
+      return checkTie();
+    } else if([state[2][i] == "+" && state[1][i+1] =='x' && state[1][i+2]] == '+') {
       counter++
-      r = i + 1;
-      return $('#row' +r+ ' span0')[0].innerHTML = 'x';
-    } else if(state[i] == "o++") {
-      counter++
-      r = i + 1;
-      return $('#row' +r+ ' span2')[0].innerHTML = 'x';
-    } else if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'o') {
-        counter++
-        return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-    } else if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == '+') {
-        counter++
-        return $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-    } else if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == '+') {
-        counter++
-        return $('#row1'+ ' span'+i)[0].innerHTML = 'x';
+      r = i + 1
+      $('#row3'+ ' span'+i).hide();
+      $('#row3'+ ' span'+i)[0].innerHTML = 'x';
+      $('#row3'+ ' span'+i).fadeIn(1000);
+      return checkTie();
+    } else {
+      i = 0
+      while(i < 3) {
+        for(n = 0; n < state.length; n++) {
+          if(state[i][n] == '+'){
+            var r = i + 1;
+            counter++;
+            $('#row'+r+ ' span'+n).hide();
+            $('#row'+r+ ' span'+n)[0].innerHTML = 'x';
+            return  $('#row'+r+ ' span'+n).fadeIn(1000);
+          };
+        };
+        i++;
+      };
     };
     i++;
   };
@@ -140,9 +155,9 @@ var computer_moves_first = function() {
   i = 0
   state.splice(0, 3);
   while(i < 4) {
-    check_row_if_computer_wins(i);
-    check_column_if_computer_wins(i);
-    check_diagonal_if_computer_wins();
+    checkRowIfComputerWins(i);
+    checkColumnIfComputerWins(i);
+    checkDiagonalIfComputerWins();
     i++;
   };
 
@@ -228,16 +243,16 @@ var computer_moves_first = function() {
     }
     i++;
   };
-  when_no_players_have_adjacent_pieces();
+  noPlayersHaveAdjacentPieces();
 }
 
 var computer_goes_second = function() {
   state.splice(0, 3);
   i = 0
   while(i < 4) {
-    check_row_if_computer_wins(i);
-    check_column_if_computer_wins(i);
-    check_diagonal_if_computer_wins();
+    checkRowIfComputerWins(i);
+    checkColumnIfComputerWins(i);
+    checkDiagonalIfComputerWins();
     i++;
   };
 
@@ -323,14 +338,14 @@ var computer_goes_second = function() {
     }
     i++;
   };
-  when_no_players_have_adjacent_pieces();
+  noPlayersHaveAdjacentPieces();
 }
 
 //Turn by turn game play
 function pageLoad() {
   if(counter == 3){
     //computer 2nd move after going first
-    if(first_move == 'computer') {
+    if(firstMove == 'computer') {
       if($("#row3 span2").text() == '+') {
         counter++;
         $('#row3'+ ' span2').hide();
@@ -358,7 +373,7 @@ function pageLoad() {
     };
   } else if(counter == 5) {
       //3rd move by computer after going first
-    if(first_move == 'computer'){
+    if(firstMove == 'computer'){
       computer_moves_first();
      } else {
       //computers 2nd move after going second.
@@ -366,7 +381,7 @@ function pageLoad() {
      };
 
   } else if(counter == 7) {
-    if(first_move == 'computer') {
+    if(firstMove == 'computer') {
       computer_moves_first();
     } else {
       //computers 3rd move after going second
@@ -375,7 +390,7 @@ function pageLoad() {
 
   } else if(counter == 9) {
     //computers last move after going 1st
-    if(first_move == 'computer') {
+    if(firstMove == 'computer') {
       computer_moves_first();
       setInterval(function(){checkTie()},1200);
     } else {
@@ -387,13 +402,13 @@ function pageLoad() {
 function firstMove() {
   if(players[counter % 2] == 'x'){
     alert("Computer goes first");
-    first_move = 'computer'
+    firstMove = 'computer'
     $("#row1 span0").hide()
     $("#row1 span0")[0].innerHTML = "x";
     $("#row1 span0").fadeIn(1000)
     counter++;
   } else {
-    first_move = 'player'
+    firstMove = 'player'
     alert("Player goes first");
   };
 };
