@@ -10,23 +10,50 @@ var players = ['o','x'];
 
 var firstMove = 'who'
 
-//var counter = Math.floor((Math.random()*2)+1);
-var counter = 2
+var counter = Math.floor((Math.random()*2)+1);
+//var counter = 2
+
+var checkRowIfPlayerWins = function(i) {
+  if(state[i] == "+oo") {
+    counter++;
+    var r = i+1;
+    $('#row' +r+ ' span0').hide();
+    $('#row' +r+ ' span0')[0].innerHTML = 'x';
+    $('#row' +r+ ' span0').fadeIn(1000);
+    return checkRow();
+  }
+  if(state[i] == "o+o") {
+    counter++;
+    var r = i+1;
+    $('#row' +r+ ' span1').hide();
+    $('#row' +r+ ' span1')[0].innerHTML = 'x';
+    $('#row' +r+ ' span1').fadeIn(1000);
+    return checkRow();
+  }
+  if(state[i] == "oo+") {
+    counter++;
+    var r = i+1;
+    $('#row' +r+ ' span2').hide();
+    $('#row' +r+ ' span2')[0].innerHTML = 'x';
+    $('#row' +r+ ' span2').fadeIn(1000);
+    return checkRow();
+  }
+}
 
 var checkRowIfComputerWins = function(i) {
   if(state[i] == "+xx") {
     counter++;
-    var r = i+1
+    var r = i+1;
     $('#row' +r+ ' span0')[0].innerHTML = 'x';
     return checkRow();
   } else if(state[i] == "x+x") {
     counter++;
-    var r = i+1
+    var r = i+1;
     $('#row' +r+ ' span1')[0].innerHTML = 'x';
     return checkRow();
   } else if(state[i] == "xx+") {
     counter++;
-    var r = i+1
+    var r = i+1;
     $('#row' +r+ ' span2')[0].innerHTML = 'x';
     return checkRow();
   };
@@ -151,7 +178,7 @@ var noPlayersHaveAdjacentPieces = function() {
   };
 };
 
-var computer_moves_first = function() {
+var computerMovesFirst = function() {
   i = 0
   state.splice(0, 3);
   while(i < 4) {
@@ -164,27 +191,7 @@ var computer_moves_first = function() {
   i = 0
   while(i < 4) {
     //checking rows to prevent player form winning
-    if(state[i] == "+oo") {
-      counter++;
-      var r = i+1
-      $('#row' +r+ ' span0').hide();
-      $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      return $('#row' +r+ ' span0').fadeIn(1000);
-    }
-    if(state[i] == "o+o") {
-      counter++;
-      var r = i+1
-      $('#row' +r+ ' span1').hide();
-      $('#row' +r+ ' span1')[0].innerHTML = 'x';
-      return $('#row' +r+ ' span1').fadeIn(1000);
-    }
-    if(state[i] == "oo+") {
-      counter++;
-      var r = i+1
-      $('#row' +r+ ' span2').hide();
-      $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      return $('#row' +r+ ' span2').fadeIn(1000);
-    }
+    checkRowIfPlayerWins(i);
     //checking columns to prevent player from winning
     if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
       counter++
@@ -246,7 +253,7 @@ var computer_moves_first = function() {
   noPlayersHaveAdjacentPieces();
 }
 
-var computer_goes_second = function() {
+var computerMovesSecond = function() {
   state.splice(0, 3);
   i = 0
   while(i < 4) {
@@ -259,26 +266,33 @@ var computer_goes_second = function() {
   i = 0
   while(i < 4) {
     //checking rows to prevent player form winning
+
+    //Problem is when I use function checkRowIfPlayerWins it returns to
+    //the while statement and continues down the list instead of
+    //breaking out of the while statement all together.
     if(state[i] == "+oo") {
       counter++;
-      var r = i+1
+      var r = i+1;
       $('#row' +r+ ' span0').hide();
       $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      return $('#row' +r+ ' span0').fadeIn(1000);
+      $('#row' +r+ ' span0').fadeIn(1000);
+      return checkRow();
     }
     if(state[i] == "o+o") {
       counter++;
-      var r = i+1
+      var r = i+1;
       $('#row' +r+ ' span1').hide();
       $('#row' +r+ ' span1')[0].innerHTML = 'x';
-      return $('#row' +r+ ' span1').fadeIn(1000);
+      $('#row' +r+ ' span1').fadeIn(1000);
+      return checkRow();
     }
     if(state[i] == "oo+") {
       counter++;
-      var r = i+1
+      var r = i+1;
       $('#row' +r+ ' span2').hide();
       $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      return $('#row' +r+ ' span2').fadeIn(1000);
+      $('#row' +r+ ' span2').fadeIn(1000);
+      return checkRow();
     }
     //checking columns to prevent player from winning
     if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
@@ -374,27 +388,27 @@ function pageLoad() {
   } else if(counter == 5) {
       //3rd move by computer after going first
     if(firstMove == 'computer'){
-      computer_moves_first();
+      computerMovesFirst();
      } else {
       //computers 2nd move after going second.
-      computer_goes_second();
+      computerMovesSecond();
      };
 
   } else if(counter == 7) {
     if(firstMove == 'computer') {
-      computer_moves_first();
+      computerMovesFirst();
     } else {
       //computers 3rd move after going second
-      computer_goes_second();
+      computerMovesSecond();
     };
 
   } else if(counter == 9) {
     //computers last move after going 1st
     if(firstMove == 'computer') {
-      computer_moves_first();
+      computerMovesFirst();
       setInterval(function(){checkTie()},1200);
     } else {
-      computer_goes_second();
+      computerMovesSecond();
     };
   };
 };
