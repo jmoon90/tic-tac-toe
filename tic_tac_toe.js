@@ -2,16 +2,14 @@ var first_row = ['+','+','+'];
 var second_row = ['+','+','+'];
 var third_row = ['+','+','+'];
 
-var player1_wins = 'ooo';
-var player2_wins = 'xxx';
+var player_wins = 'ooo';
+var computer_wins = 'xxx';
 var state = [];
 
 var players = ['o','x'];
 
-var firstMove = 'who'
-
 var counter = Math.floor((Math.random()*2)+1);
-//var counter = 2
+var counter = 2;
 
 var checkRowIfPlayerWins = function(i) {
   if(state[i] == "+oo") {
@@ -191,7 +189,32 @@ var computerMovesFirst = function() {
   i = 0
   while(i < 4) {
     //checking rows to prevent player form winning
-    checkRowIfPlayerWins(i);
+    //checkRowIfPlayerWins(i);
+    if(state[i] == "+oo") {
+      counter++;
+      var r = i+1;
+      $('#row' +r+ ' span0').hide();
+      $('#row' +r+ ' span0')[0].innerHTML = 'x';
+      $('#row' +r+ ' span0').fadeIn(1000);
+      return checkRow();
+    }
+    if(state[i] == "o+o") {
+      counter++;
+      var r = i+1;
+      $('#row' +r+ ' span1').hide();
+      $('#row' +r+ ' span1')[0].innerHTML = 'x';
+      $('#row' +r+ ' span1').fadeIn(1000);
+      return checkRow();
+    }
+    if(state[i] == "oo+") {
+      counter++;
+      var r = i+1;
+      $('#row' +r+ ' span2').hide();
+      $('#row' +r+ ' span2')[0].innerHTML = 'x';
+      $('#row' +r+ ' span2').fadeIn(1000);
+    return checkRow();
+  }
+
     //checking columns to prevent player from winning
     if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
       counter++
@@ -452,12 +475,14 @@ function checkTie() {
 
 //check_row
 function checkRow() {
-  if($("#row1").text() == player1_wins || $("#row2").text() == player1_wins || $("#row3").text() == player1_wins) {
+  if($("#row1").text() == player_wins ||
+     $("#row2").text() == player_wins ||
+     $("#row3").text() == player_wins) {
     alert("Player 1 wins");
     return location.reload();
-  } else if($("#row1").text() == player2_wins ||
-            $("#row2").text() == player2_wins ||
-            $("#row3").text() == player2_wins) {
+  } else if($("#row1").text() == computer_wins ||
+            $("#row2").text() == computer_wins ||
+            $("#row3").text() == computer_wins) {
     alert("Computer wins");
     return location.reload();
   };
@@ -468,10 +493,10 @@ function checkColumn() {
   i = 0
   while(i < 3) {
     var column = $("#row1").text()[i] + $("#row2").text()[i] + $("#row3").text()[i]
-    if(column == player1_wins) {
+    if(column == player_wins) {
       alert("Player 1 wins");
       return location.reload();
-    } else if(column == player2_wins) {
+    } else if(column == computer_wins) {
       alert("Computer wins");
       return location.reload();
     };
@@ -483,10 +508,10 @@ function checkColumn() {
 function checkDiagonal() {
   var diagonal_right = $("#row1").text()[0] + $("#row2").text()[1] + $("#row3").text()[2]
   var diagonal_left = $("#row1").text()[2] + $("#row2").text()[1] + $("#row3").text()[0]
-  if(diagonal_right == player1_wins || diagonal_left == player1_wins) {
+  if(diagonal_right == player_wins || diagonal_left == player_wins) {
     alert("Player 1 wins");
     return location.reload();
-  } else if(diagonal_right == player2_wins || diagonal_left == player2_wins) {
+  } else if(diagonal_right == computer_wins || diagonal_left == computer_wins) {
     alert("Computer wins");
     window.alert = setInterval(function() {}, 3000);
     return location.reload();
