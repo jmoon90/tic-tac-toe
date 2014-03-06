@@ -7,54 +7,41 @@ var player_wins = 'ooo';
 var players = ['o','x'];
 var state = []; // current state of board
 
-var counter = Math.floor((Math.random()*2)+1);
-//var counter = 2;
+//var counter = Math.floor((Math.random()*2)+1);
+var counter = 2;
 
 var checkRowIfSomeoneCanWin = function(i, p) {
+  var placeRow = function(i,s) {
+    counter++;
+    var r = i+1;
+    $('#row'+r+ ' span'+s).hide();
+    $('#row'+r+ ' span'+s)[0].innerHTML = 'x';
+    $('#row'+r+ ' span'+s).fadeIn(1000);
+    return checkRow();
+  }
   if(state[i] == "+" +p +p) {
-    counter++;
-    var r = i+1;
-    $('#row'+r+ ' span0').hide();
-    $('#row'+r+ ' span0')[0].innerHTML = 'x';
-    $('#row'+r+ ' span0').fadeIn(1000);
-    checkRow();
+    return placeRow(i, 0);
   } else if(state[i] == p+ "+" +p) {
-    counter++;
-    var r = i+1;
-    $('#row'+r+ ' span1').hide();
-    $('#row'+r+ ' span1')[0].innerHTML = 'x';
-    $('#row'+r+ ' span1').fadeIn(1000);
-    checkRow();
+    return placeRow(i, 1);
   } else if(state[i] == p+ p+"+") {
-    counter++;
-    var r = i+1;
-    $('#row'+r+ ' span2').hide();
-    $('#row'+r+ ' span2')[0].innerHTML = 'x';
-    $('#row'+r+ ' span2').fadeIn(1000);
-    checkRow();
+    return placeRow(i, 2);
   };
 }
 
 var checkColumnIfSomeoneCanWin = function(i, p) {
+  var placeColumn = function(r, s) {
+    counter++;
+    $('#row'+r+ ' span'+s).hide();
+    $('#row'+r+ ' span'+s)[0].innerHTML = 'x';
+    $('#row'+r+ ' span'+s).fadeIn(1000);
+    return checkColumn();
+  } 
   if([state[0][i] == p && state[1][i] == p && state[2][i]] == '+') {
-    counter++;
-    $('#row3'+ ' span'+i).hide();
-    $('#row3'+ ' span'+i)[0].innerHTML = 'x';
-    $('#row3'+ ' span'+i).fadeIn(1000);
-    return checkColumn();
+    return placeColumn(3,i)
   } else if([state[0][i] == p && state[1][i] =='+' && state[2][i]] == p) {
-    counter++;
-    $('#row2'+ ' span'+i).hide();
-    $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-    $('#row2'+ ' span'+i).fadeIn(1000);
-    return checkColumn();
+    return placeColumn(2,i)
   } else if([state[0][i] == "+" && state[1][i] == p && state[2][i]] == p) {
-    counter++;
-
-    $('#row1'+ ' span'+i).hide();
-    $('#row1'+ ' span'+i)[0].innerHTML = 'x';
-    $('#row1'+ ' span'+i).fadeIn(1000);
-    return checkColumn();
+    return placeColumn(1,i)
   }
 };
 
@@ -120,6 +107,22 @@ var noPlayersHaveAdjacentPieces = function(p) {
       return checkAdjacentColumns(i,1);
     } else if([state[2][i] == "+" && state[1][i+1] == p && state[1][i+2]] == '+') {
       return checkAdjacentColumns(i,3);
+    };
+
+    var checkDiagonal = function(r, i) {
+      counter++;
+      $('#row'+r+ ' span'+i).hide();
+      $('#row'+r+ ' span'+i)[0].innerHTML = 'x';
+      $('#row'+r+ ' span'+i).fadeIn(1000);
+      return checkTie();
+    }
+
+    if([state[0][0] == "+" && state[1][1] == "+" && state[2][2]] == p){
+      checkDiagonal(3, 2);
+    } else if([state[0][0] == "+" && state[1][1] == p && state[2][2]] == "+") {
+      checkDiagonal(2, 1);
+    } else if([state[0][0] == p && state[1][1] == "+" && state[2][2]] == "+") {
+      checkDiagonal(1, 0);
     };
     i++;
   };
