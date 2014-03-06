@@ -3,6 +3,10 @@
   width: 170px;
 }
 
+.underscore {
+  border-bottom: 1px solid blue;
+}
+
 #row1 span1 {
   font-size: 100px;
 }

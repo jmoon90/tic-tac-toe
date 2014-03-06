@@ -8,141 +8,106 @@ var state = [];
 
 var players = ['o','x'];
 
-var counter = Math.floor((Math.random()*2)+1);
-var counter = 2;
+//var counter = Math.floor((Math.random()*2)+1);
+var counter = 1;
 
-var checkRowIfPlayerWins = function(i) {
-  if(state[i] == "+oo") {
-    counter++;
-    var r = i+1;
-    $('#row' +r+ ' span0').hide();
-    $('#row' +r+ ' span0')[0].innerHTML = 'x';
-    $('#row' +r+ ' span0').fadeIn(1000);
-    return checkRow();
-  }
-  if(state[i] == "o+o") {
-    counter++;
-    var r = i+1;
-    $('#row' +r+ ' span1').hide();
-    $('#row' +r+ ' span1')[0].innerHTML = 'x';
-    $('#row' +r+ ' span1').fadeIn(1000);
-    return checkRow();
-  }
-  if(state[i] == "oo+") {
-    counter++;
-    var r = i+1;
-    $('#row' +r+ ' span2').hide();
-    $('#row' +r+ ' span2')[0].innerHTML = 'x';
-    $('#row' +r+ ' span2').fadeIn(1000);
-    return checkRow();
-  }
-}
-
-var checkRowIfComputerWins = function(i) {
-  if(state[i] == "+xx") {
+var checkRowIfSomeoneWins = function(i, p) {
+  if(state[i] == "+" +p +p) {
     counter++;
     var r = i+1;
     $('#row' +r+ ' span0')[0].innerHTML = 'x';
-    return checkRow();
-  } else if(state[i] == "x+x") {
+    checkRow();
+  } else if(state[i] == p+ "+" +p) {
     counter++;
     var r = i+1;
     $('#row' +r+ ' span1')[0].innerHTML = 'x';
-    return checkRow();
-  } else if(state[i] == "xx+") {
+    checkRow();
+  } else if(state[i] == p+ p+"+") {
     counter++;
     var r = i+1;
     $('#row' +r+ ' span2')[0].innerHTML = 'x';
-    return checkRow();
+    checkRow();
   };
 }
 
-var checkColumnIfComputerWins = function(i) {
-  if([state[0][i] == "x" && state[1][i] =='x' && state[2][i]] == '+') {
-    counter++
+var checkColumnIfSomeoneWins = function(i, p) {
+  if([state[0][i] == p && state[1][i] == p && state[2][i]] == '+') {
+    counter++;
     $('#row3'+ ' span'+i)[0].innerHTML = 'x';
     return checkColumn();
-  } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == 'x') {
-    counter++
+  } else if([state[0][i] == p && state[1][i] =='+' && state[2][i]] == p) {
+    counter++;
     $('#row2'+ ' span'+i)[0].innerHTML = 'x';
     return checkColumn();
-  } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == 'x') {
-    counter++
+  } else if([state[0][i] == "+" && state[1][i] == p && state[2][i]] == p) {
+    counter++;
     $('#row1'+ ' span'+i)[0].innerHTML = 'x';
     return checkColumn();
   }
 };
 
-var checkDiagonalIfComputerWins = function() {
-  if([state[0][0] == "+" && state[1][1] =='x' && state[2][2]] == 'x') {
+var checkDiagonalIfSomeoneWins = function(p) {
+  if([state[0][0] == "+" && state[1][1] == p && state[2][2]] == p) {
     counter++
     $('#row1' + ' span0')[0].innerHTML = 'x';
     return checkDiagonal();
-  } else if([state[0][0] == "x" && state[1][1] =='+' && state[2][2]] == 'x') {
+  } else if([state[0][0] == p && state[1][1] =='+' && state[2][2]] == p) {
     counter++
     $('#row2'+ ' span1')[0].innerHTML = 'x';
     return checkDiagonal();
-  } else if([state[0][0] == "x" && state[1][1] =='x' && state[2][2]] == '+') {
+  } else if([state[0][0] == p && state[1][1] == p && state[2][2]] == '+') {
     counter++
     $('#row3'+ ' span2')[0].innerHTML = 'x';
     return checkDiagonal();
-  } else if([state[2][0] == "+" && state[1][1] =='x' && state[0][2]] == 'x') {
-    counter++
+  } else if([state[2][0] == "+" && state[1][1] == p && state[0][2]] == p) {
+    counter++;
     $('#row3' + ' span0')[0].innerHTML = 'x';
     return checkDiagonal();
-  } else if([state[2][0] == "x" && state[1][1] =='+' && state[0][2]] == 'x') {
-    counter++
+  } else if([state[2][0] == p && state[1][1] =='+' && state[0][2]] == p) {
+    counter++;
     $('#row2'+ ' span1')[0].innerHTML = 'x';
     return checkDiagonal();
-  } else if([state[2][0] == "x" && state[1][1] =='x' && state[0][2]] == '+') {
-    counter++
+  } else if([state[2][0] == p && state[1][1] == p && state[0][2]] == '+') {
+    counter++;
     $('#row1'+ ' span2')[0].innerHTML = 'x';
     return checkDiagonal();
   };
 };
 
 var noPlayersHaveAdjacentPieces = function() {
-  i = 0
+  var adjacent_row = function(n,spanNumber) {
+    counter++;
+    r = n + 1;
+    $('#row'+r+ ' span'+spanNumber).hide();
+    $('#row'+r+ ' span'+spanNumber)[0].innerHTML = 'x';
+    $('#row'+r+ ' span'+spanNumber).fadeIn(1000);
+    return checkTie();
+  }
+  var adjacent_columns = function(i, r) {
+    counter++
+    $('#row'+r+ ' span'+i).hide();
+    $('#row'+r+ ' span'+i)[0].innerHTML = 'x';
+    $('#row'+r+ ' span'+i).fadeIn(1000);
+    return checkTie();
+  }
+  i = 0;
   while(i < 4) {
-    if(state[i] == "++x") {
-      counter++
-      r = i + 1;
-      $('#row' +r+ ' span2').hide();
-      $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      $('#row' +r+ ' span2').fadeIn(1000);
-      return checkTie();
-    } else if(state[i] == "+x+") {
-      counter++
-      r = i + 1;
-      $('#row' +r+ ' span0').hide();
-      $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      $('#row' +r+ ' span0').fadeIn(1000);
-      return checkTie();
-    } else if(state[i] == "x++") {
-      counter++
-      r = i + 1;
-      $('#row' +r+ ' span2').hide();
-      $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      $('#row' +r+ ' span2').fadeIn(1000);
-      return checkTie();
-    } else if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'x') {
-      counter++
-      $('#row2'+ ' span'+i).hide();
-      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-      $('#row2'+ ' span'+i).fadeIn(1000);
-      return checkTie();
+    for(n = 0; n < 3; n++) {
+      if(state[n] == "++x") {
+        return adjacent_row(n,2);
+      } else if(state[n] == "+x+") {
+        return adjacent_row(n,0);
+      } else if(state[n] == "x++") {
+        return adjacent_row(n,2);
+      }
+    }
+
+    if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == 'x') {
+      return adjacent_columns(i,2);
     } else if([state[0][i] == "x" && state[1][i] =='+' && state[2][i]] == '+') {
-      counter++
-      $('#row2'+ ' span'+i).hide();
-      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-      $('#row2'+ ' span'+i).fadeIn(1000);
-      return checkTie();
+      return adjacent_columns(i,2);
     } else if([state[0][i] == "+" && state[1][i] =='x' && state[2][i]] == '+') {
-      counter++
-      $('#row1'+ ' span'+i).hide();
-      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
-      $('#row1'+ ' span'+i).fadeIn(1000);
-      return checkTie();
+      return adjacent_columns(i,1);
     } else if([state[0][i] == "+" && state[1][i+1] =='x' && state[2][i+2]] == '+') {
       counter++
       r = i + 1
@@ -157,281 +122,83 @@ var noPlayersHaveAdjacentPieces = function() {
       $('#row3'+ ' span'+i)[0].innerHTML = 'x';
       $('#row3'+ ' span'+i).fadeIn(1000);
       return checkTie();
-    } else {
-      i = 0
-      while(i < 3) {
-        for(n = 0; n < state.length; n++) {
-          if(state[i][n] == '+'){
-            var r = i + 1;
-            counter++;
-            $('#row'+r+ ' span'+n).hide();
-            $('#row'+r+ ' span'+n)[0].innerHTML = 'x';
-            return  $('#row'+r+ ' span'+n).fadeIn(1000);
-          };
-        };
-        i++;
-      };
     };
     i++;
   };
 };
 
-var computerMovesFirst = function() {
-  i = 0
+var computerMoves = function() {
   state.splice(0, 3);
+  i = 0
   while(i < 4) {
-    checkRowIfComputerWins(i);
-    checkColumnIfComputerWins(i);
-    checkDiagonalIfComputerWins();
+    var x = 'x'
+    checkRowIfSomeoneWins(i, x);
+    checkColumnIfSomeoneWins(i, x);
+    checkDiagonalIfSomeoneWins(x);
     i++;
   };
 
   i = 0
   while(i < 4) {
-    //checking rows to prevent player form winning
-    //checkRowIfPlayerWins(i);
-    if(state[i] == "+oo") {
-      counter++;
-      var r = i+1;
-      $('#row' +r+ ' span0').hide();
-      $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      $('#row' +r+ ' span0').fadeIn(1000);
-      return checkRow();
+    var o = 'o';
+    if(counter % 2 == 0) {
+      return;
+    } else {
+      checkRowIfSomeoneWins(i, o);
+      checkColumnIfSomeoneWins(i, o);
+      checkDiagonalIfSomeoneWins(o);
     }
-    if(state[i] == "o+o") {
-      counter++;
-      var r = i+1;
-      $('#row' +r+ ' span1').hide();
-      $('#row' +r+ ' span1')[0].innerHTML = 'x';
-      $('#row' +r+ ' span1').fadeIn(1000);
-      return checkRow();
-    }
-    if(state[i] == "oo+") {
-      counter++;
-      var r = i+1;
-      $('#row' +r+ ' span2').hide();
-      $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      $('#row' +r+ ' span2').fadeIn(1000);
-    return checkRow();
+    i++;
+  };
+
+  if(counter % 2 == 0) {
+    return;
+  } else {
+    noPlayersHaveAdjacentPieces();
   }
-
-    //checking columns to prevent player from winning
-    if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
-      counter++
-      $('#row3'+ ' span'+i).hide();
-      $('#row3'+ ' span'+i)[0].innerHTML = 'x';
-      return $('#row3'+ ' span'+i).fadeIn(1000);
-    }
-    if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
-      counter++
-      $('#row2'+ ' span'+i).hide();
-      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-      return $('#row2'+ ' span'+i).fadeIn(1000);
-    }
-    if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
-      counter++
-      $('#row1'+ ' span'+i).hide();
-      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
-      return $('#row1'+ ' span'+i).fadeIn(1000);
-    }
-    //diagonal to prevent player from winning
-    if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
-      counter++
-      $('#row3' + ' span0').hide();
-      $('#row3' + ' span0')[0].innerHTML = 'x';
-      return $('#row3' + ' span0').fadeIn(1000);
-    }
-    if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
-      counter++
-      $('#row2'+ ' span1').hide();
-      $('#row2'+ ' span1')[0].innerHTML = 'x';
-      return $('#row2'+ ' span1').fadeIn(1000);
-    }
-    if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
-      counter++
-      $('#row1'+ ' span2').hide();
-      $('#row1'+ ' span2')[0].innerHTML = 'x';
-      return $('#row1'+ ' span2').fadeIn(1000);
-    }
-    if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
-      counter++
-      $('#row1' + ' span0').hide();
-      $('#row1' + ' span0')[0].innerHTML = 'x';
-      return $('#row1' + ' span0').fadeIn(1000);
-    }
-    if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
-      counter++
-      $('#row2'+ ' span1').hide();
-      $('#row2'+ ' span1')[0].innerHTML = 'x';
-      return $('#row2'+ ' span1').fadeIn(1000);
-    }
-    if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
-      counter++
-      $('#row3'+ ' span2').hide();
-      $('#row3'+ ' span2')[0].innerHTML = 'x';
-      return $('#row3'+ ' span2').fadeIn(1000);
-    }
-    i++;
-  };
-  noPlayersHaveAdjacentPieces();
 }
 
-var computerMovesSecond = function() {
-  state.splice(0, 3);
-  i = 0
-  while(i < 4) {
-    checkRowIfComputerWins(i);
-    checkColumnIfComputerWins(i);
-    checkDiagonalIfComputerWins();
-    i++;
-  };
-
-  i = 0
-  while(i < 4) {
-    //checking rows to prevent player form winning
-
-    //Problem is when I use function checkRowIfPlayerWins it returns to
-    //the while statement and continues down the list instead of
-    //breaking out of the while statement all together.
-    if(state[i] == "+oo") {
-      counter++;
-      var r = i+1;
-      $('#row' +r+ ' span0').hide();
-      $('#row' +r+ ' span0')[0].innerHTML = 'x';
-      $('#row' +r+ ' span0').fadeIn(1000);
-      return checkRow();
-    }
-    if(state[i] == "o+o") {
-      counter++;
-      var r = i+1;
-      $('#row' +r+ ' span1').hide();
-      $('#row' +r+ ' span1')[0].innerHTML = 'x';
-      $('#row' +r+ ' span1').fadeIn(1000);
-      return checkRow();
-    }
-    if(state[i] == "oo+") {
-      counter++;
-      var r = i+1;
-      $('#row' +r+ ' span2').hide();
-      $('#row' +r+ ' span2')[0].innerHTML = 'x';
-      $('#row' +r+ ' span2').fadeIn(1000);
-      return checkRow();
-    }
-    //checking columns to prevent player from winning
-    if([state[0][i] == "o" && state[1][i] =='o' && state[2][i]] == '+') {
-      counter++
-      $('#row3'+ ' span'+i).hide();
-      $('#row3'+ ' span'+i)[0].innerHTML = 'x';
-      return $('#row3'+ ' span'+i).fadeIn(1000);
-    }
-    if([state[0][i] == "o" && state[1][i] =='+' && state[2][i]] == 'o') {
-      counter++
-      $('#row2'+ ' span'+i).hide();
-      $('#row2'+ ' span'+i)[0].innerHTML = 'x';
-      return $('#row2'+ ' span'+i).fadeIn(1000);
-    }
-    if([state[0][i] == "+" && state[1][i] =='o' && state[2][i]] == 'o') {
-      counter++
-      $('#row1'+ ' span'+i).hide();
-      $('#row1'+ ' span'+i)[0].innerHTML = 'x';
-      return $('#row1'+ ' span'+i).fadeIn(1000);
-    }
-    //diagonal to prevent player from winning
-    if([state[2][0] == "+" && state[1][1] =='o' && state[0][2]] == 'o') {
-      counter++
-      $('#row3' + ' span0').hide();
-      $('#row3' + ' span0')[0].innerHTML = 'x';
-      return $('#row3' + ' span0').fadeIn(1000);
-    }
-    if([state[2][0] == "o" && state[1][1] =='+' && state[0][2]] == 'o') {
-      counter++
-      $('#row2'+ ' span1').hide();
-      $('#row2'+ ' span1')[0].innerHTML = 'x';
-      return $('#row2'+ ' span1').fadeIn(1000);
-    }
-    if([state[2][0] == "o" && state[1][1] =='o' && state[0][2]] == '+') {
-      counter++
-      $('#row1'+ ' span2').hide();
-      $('#row1'+ ' span2')[0].innerHTML = 'x';
-      return $('#row1'+ ' span2').fadeIn(1000);
-    }
-    if([state[0][0] == "+" && state[1][1] =='o' && state[2][2]] == 'o') {
-      counter++
-      $('#row1' + ' span0').hide();
-      $('#row1' + ' span0')[0].innerHTML = 'x';
-      return $('#row1' + ' span0').fadeIn(1000);
-    }
-    if([state[0][0] == "o" && state[1][1] =='+' && state[2][2]] == 'o') {
-      counter++
-      $('#row2'+ ' span1').hide();
-      $('#row2'+ ' span1')[0].innerHTML = 'x';
-      return $('#row2'+ ' span1').fadeIn(1000);
-    }
-    if([state[0][0] == "o" && state[1][1] =='o' && state[2][2]] == '+') {
-      counter++
-      $('#row3'+ ' span2').hide();
-      $('#row3'+ ' span2')[0].innerHTML = 'x';
-      return $('#row3'+ ' span2').fadeIn(1000);
-    }
-    i++;
-  };
-  noPlayersHaveAdjacentPieces();
-}
-
-//Turn by turn game play
 function pageLoad() {
+  var cornerOrMidPlacement = function(r, s) {
+    counter++;
+    $('#row'+r+ ' span'+s).hide();
+    $('#row'+r+ ' span'+s)[0].innerHTML = 'x';
+    return $('#row'+r+ ' span'+s).fadeIn(1000);
+  }
   if(counter == 3){
-    //computer 2nd move after going first
     if(firstMove == 'computer') {
       if($("#row3 span2").text() == '+') {
-        counter++;
-        $('#row3'+ ' span2').hide();
-        $("#row3 span2")[0].innerHTML = 'x';
-        return $('#row3'+ ' span2').fadeIn(1000);
+        return cornerOrMidPlacement(3, 2);
       } else {
-        counter++;
-        $('#row3'+ ' span0').hide();
-        $("#row3 span0")[0].innerHTML = "x";
-        return $('#row3'+ ' span0').fadeIn(1000);
+        return cornerOrMidPlacement(3, 0);
       };
     } else {
-      //computer 1st move after going second
       if($("#row2 span1").text() == '+') {
-        counter++;
-        $("#row2 span1").hide();
-        $("#row2 span1")[0].innerHTML = "x";
-        return $("#row2 span1").fadeIn(1000);
+        return cornerOrMidPlacement(2, 1);
       } else {
-        counter++;
-        $("#row1 span0").hide();
-        $("#row1 span0")[0].innerHTML = "x";
-        return $("#row1 span0").fadeIn(1000);
-      };
+        return cornerOrMidPlacement(1, 0);
+      }
     };
   } else if(counter == 5) {
-      //3rd move by computer after going first
     if(firstMove == 'computer'){
-      computerMovesFirst();
+      computerMoves();
      } else {
-      //computers 2nd move after going second.
-      computerMovesSecond();
+      computerMoves();
      };
 
   } else if(counter == 7) {
     if(firstMove == 'computer') {
-      computerMovesFirst();
+      computerMoves();
     } else {
-      //computers 3rd move after going second
-      computerMovesSecond();
+      computerMoves();
     };
 
   } else if(counter == 9) {
-    //computers last move after going 1st
     if(firstMove == 'computer') {
-      computerMovesFirst();
+      computerMoves();
       setInterval(function(){checkTie()},1200);
     } else {
-      computerMovesSecond();
+      computerMoves();
     };
   };
 };
@@ -454,7 +221,6 @@ function countClick() {
   counter++;
 };
 
-//check_board
 function checkTie() {
   i = 1
   var space_left = 0
@@ -473,30 +239,20 @@ function checkTie() {
   };
 }
 
-//check_row
 function checkRow() {
-  if($("#row1").text() == player_wins ||
-     $("#row2").text() == player_wins ||
-     $("#row3").text() == player_wins) {
-    alert("Player 1 wins");
-    return location.reload();
-  } else if($("#row1").text() == computer_wins ||
-            $("#row2").text() == computer_wins ||
-            $("#row3").text() == computer_wins) {
+  if($("#row1").text() == computer_wins || $("#row2").text() == computer_wins || $("#row3").text() == computer_wins) {
     alert("Computer wins");
     return location.reload();
+  } else {
+    return
   };
 }
 
-//check_column
 function checkColumn() {
   i = 0
   while(i < 3) {
     var column = $("#row1").text()[i] + $("#row2").text()[i] + $("#row3").text()[i]
-    if(column == player_wins) {
-      alert("Player 1 wins");
-      return location.reload();
-    } else if(column == computer_wins) {
+    if(column == computer_wins) {
       alert("Computer wins");
       return location.reload();
     };
@@ -504,14 +260,10 @@ function checkColumn() {
   }
 }
 
-//check_diagonally
 function checkDiagonal() {
   var diagonal_right = $("#row1").text()[0] + $("#row2").text()[1] + $("#row3").text()[2]
   var diagonal_left = $("#row1").text()[2] + $("#row2").text()[1] + $("#row3").text()[0]
-  if(diagonal_right == player_wins || diagonal_left == player_wins) {
-    alert("Player 1 wins");
-    return location.reload();
-  } else if(diagonal_right == computer_wins || diagonal_left == computer_wins) {
+  if(diagonal_right == computer_wins || diagonal_left == computer_wins) {
     alert("Computer wins");
     window.alert = setInterval(function() {}, 3000);
     return location.reload();
