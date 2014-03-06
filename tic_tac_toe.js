@@ -5,13 +5,12 @@ var third_row = ['+','+','+'];
 var player_wins = 'ooo';
 var computer_wins = 'xxx';
 var state = [];
-
 var players = ['o','x'];
 
-//var counter = Math.floor((Math.random()*2)+1);
-var counter = 1;
+var counter = Math.floor((Math.random()*2)+1);
+//var counter = 1;
 
-var checkRowIfSomeoneWins = function(i, p) {
+var checkRowIfSomeoneCanWin = function(i, p) {
   if(state[i] == "+" +p +p) {
     counter++;
     var r = i+1;
@@ -30,7 +29,7 @@ var checkRowIfSomeoneWins = function(i, p) {
   };
 }
 
-var checkColumnIfSomeoneWins = function(i, p) {
+var checkColumnIfSomeoneCanWin = function(i, p) {
   if([state[0][i] == p && state[1][i] == p && state[2][i]] == '+') {
     counter++;
     $('#row3'+ ' span'+i)[0].innerHTML = 'x';
@@ -46,7 +45,7 @@ var checkColumnIfSomeoneWins = function(i, p) {
   }
 };
 
-var checkDiagonalIfSomeoneWins = function(p) {
+var checkDiagonalIfSomeoneCanWin = function(p) {
   if([state[0][0] == "+" && state[1][1] == p && state[2][2]] == p) {
     counter++
     $('#row1' + ' span0')[0].innerHTML = 'x';
@@ -132,9 +131,9 @@ var computerMoves = function() {
   i = 0
   while(i < 4) {
     var x = 'x'
-    checkRowIfSomeoneWins(i, x);
-    checkColumnIfSomeoneWins(i, x);
-    checkDiagonalIfSomeoneWins(x);
+    checkRowIfSomeoneCanWin(i, x);
+    checkColumnIfSomeoneCanWin(i, x);
+    checkDiagonalIfSomeoneCanWin(x);
     i++;
   };
 
@@ -144,9 +143,9 @@ var computerMoves = function() {
     if(counter % 2 == 0) {
       return;
     } else {
-      checkRowIfSomeoneWins(i, o);
-      checkColumnIfSomeoneWins(i, o);
-      checkDiagonalIfSomeoneWins(o);
+      checkRowIfSomeoneCanWin(i, o);
+      checkColumnIfSomeoneCanWin(i, o);
+      checkDiagonalIfSomeoneCanWin(o);
     }
     i++;
   };
