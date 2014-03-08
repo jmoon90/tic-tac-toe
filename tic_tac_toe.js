@@ -131,11 +131,12 @@ var computerMoves = function() {
 }
 
 function pageLoad() {
-  var cornerOrMidPlacement = function(r, i) {
+  var cornerOrMidPlacement = function(i, s) {
     counter++;
-    $('#row'+r+ ' .span-'+i).hide();
-    $('#row'+r+ ' .span-'+i)[0].innerHTML = 'x';
-    return $('#row'+r+ ' .span-'+i).fadeIn(1000);
+    var r = i + 1
+    $('#row'+r+ ' .span-'+s).hide();
+    $('#row'+r+ ' .span-'+s)[0].innerHTML = 'x';
+    $('#row'+r+ ' .span-'+s).fadeIn(1000);
   }
   if(counter == 3){
     if(firstMove == 'computer') {
@@ -147,11 +148,10 @@ function pageLoad() {
     } else {
       for(i = 0; i < 3; i++) {
         if(state[i] == "+o+") {
-          return cornerOrMidPlacement(2, 1);
-        } else {
-          return cornerOrMidPlacement(2, 1);
-        }
-      }
+          return cornerOrMidPlacement(i, 0);
+        };
+      };
+      return cornerOrMidPlacement(1, 1);
     };
   } else if(counter == 5) {
     computerMoves();
@@ -257,7 +257,8 @@ function initialBoard() {
 }
 
 $(function(){
-  initialBoard()
+  initialBoard();
+  firstMove();
   $(".row span").click(function(e){
     if($(e.currentTarget).text() === "+") {
       $(e.currentTarget)[0].innerHTML = players[counter % 2];
