@@ -1,17 +1,19 @@
 <html>
   <head>
-    <script src="tic_tac_toe.js"></script>
     <!--https://s3.amazonaws.com/tic-tac-toe/tic_tac_toe.js"-->
     <script type='text/javascript'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="tic_tac_toe.js"></script>
     <link rel='stylesheet' type='text/css' href='tic_tac_toe.css'>
   </head>
   <body>
-    <h1>Impossible Tic Tac Toe</h1>
-    <button onclick="firstMove()">Who goes first? Click here</button>
-    <h1 class='rows underscore' id='row1' onclick="countClick(); checkRow();
-checkColumn(); checkDiagonal(); checkTie(); pageLoad()"></h1>
-    <h1 class='rows underscore' id='row2' onclick="countClick(); checkRow(); checkColumn(); checkDiagonal(); checkTie(); pageLoad()"></h1>
-    <h1 class='rows' id='row3' onclick="countClick(); checkRow(); checkColumn(); checkDiagonal(); checkTie(); pageLoad()"></h1>
+    <div class='container'>
+      <h1>Impossible Tic Tac Toe</h1>
+      <button onclick="firstMove()">Who goes first? Click here</button>
+      <div class='row' id='row1' onclick="countClick(); checkRow();
+  checkColumn(); checkDiagonal(); checkTie(); pageLoad()"></div>
+      <div class='row' id='row2' onclick="countClick(); checkRow(); checkColumn(); checkDiagonal(); checkTie(); pageLoad()"></div>
+      <div class='row' id='row3' onclick="countClick(); checkRow(); checkColumn(); checkDiagonal(); checkTie(); pageLoad()"></div>
+      </div>
   </body>
 </html>
