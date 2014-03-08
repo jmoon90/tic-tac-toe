@@ -7,8 +7,8 @@ var player_wins = 'ooo';
 var players = ['o','x'];
 var state = []; // current state of board
 
-//var counter = Math.floor((Math.random()*2)+1);
-var counter = 2;
+var counter = Math.floor((Math.random()*2)+1);
+//var counter = 2;
 
 var placePiece = function(i,s) {
   counter++;
@@ -131,27 +131,20 @@ var computerMoves = function() {
 }
 
 function pageLoad() {
-  var cornerOrMidPlacement = function(i, s) {
-    counter++;
-    var r = i + 1
-    $('#row'+r+ ' .span-'+s).hide();
-    $('#row'+r+ ' .span-'+s)[0].innerHTML = 'x';
-    $('#row'+r+ ' .span-'+s).fadeIn(1000);
-  }
   if(counter == 3){
     if(firstMove == 'computer') {
       if($("#row3 .span-2").text() == '+') {
-        return cornerOrMidPlacement(3, 2);
+        return placePiece(2, 2);
       } else {
-        return cornerOrMidPlacement(3, 0);
+        return placePiece(1, 0);
       };
     } else {
       for(i = 0; i < 3; i++) {
         if(state[i] == "+o+") {
-          return cornerOrMidPlacement(i, 0);
+          return placePiece(i, 0);
         };
       };
-      return cornerOrMidPlacement(1, 1);
+      return placePiece(1, 1);
     };
   } else if(counter == 5) {
     computerMoves();
@@ -170,11 +163,8 @@ function pageLoad() {
 function firstMove() {
   if(players[counter % 2] == 'x'){
     alert("Computer goes first");
-    firstMove = 'computer'
-    $("#row1 .span-0").hide();
-    $("#row1 .span-0")[0].innerHTML = "x";
-    $("#row1 .span-0").fadeIn(1000)
-    counter++;
+    firstMove = 'computer';
+    placePiece(0,0);
   } else {
     firstMove = 'player'
     alert("Player goes first");
