@@ -67,11 +67,11 @@ var noPlayersHaveAdjacentPieces = function(p) {
   while(i < 4) {
     for(n = 0; n < 3; n++) {
       if(state[n] == "++"+p) {
-        return placePiece(n-1, 2);
+        return placePiece(n, 1);
       } else if(state[n] == "+"+p+"+") {
-        return placePiece(n-1, 0);
+        return placePiece(n, 0);
       } else if(state[n] == p+"++") {
-        return placePiece(n-1, 2);
+        return placePiece(n, 2);
       }
     }
     if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == p) {
@@ -125,7 +125,7 @@ var computerMoves = function() {
   } else {
     noPlayersHaveAdjacentPieces('x');
     if(counter % 2 != 0) {
-      return noPlayersHaveAdjacentPieces('o');
+      noPlayersHaveAdjacentPieces('o');
     };
   }
 }
