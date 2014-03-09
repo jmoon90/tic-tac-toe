@@ -1,7 +1,6 @@
-#[Tic Tac Toe](https://s3.amazonaws.com/tic-tac-toe/index.html)
+#Click to play [Tic Tac Toe](https://s3.amazonaws.com/tic-tac-toe/index.html)
 
 ## How to Play
-+ Click on 'Who goes first?..'
 + '+' are empty spaces.
 + 'x' is computer
 + 'o' is player
