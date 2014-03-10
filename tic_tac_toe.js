@@ -1,6 +1,6 @@
-var first_row = ['+','+','+'];
-var second_row = ['+','+','+'];
-var third_row = ['+','+','+'];
+var first_row = [" "," "," "];
+var second_row = [" "," "," "];
+var third_row = [" "," "," "];
 
 var computer_wins = 'xxx';
 var player_wins = 'ooo';
@@ -27,37 +27,37 @@ function checkIfAnyoneCanWin() {
 }
 
 var checkRowIfSomeoneCanWin = function(i, p) {
-  if(state[i] == "+" +p +p) {
+  if(state[i] == " " +p +p) {
     return placePiece(i, 0);
-  } else if(state[i] == p+ "+" +p) {
+  } else if(state[i] == p+ " " +p) {
     return placePiece(i, 1);
-  } else if(state[i] == p+ p+"+") {
+  } else if(state[i] == p+ p+" ") {
     return placePiece(i, 2);
   };
 }
 
 var checkColumnIfSomeoneCanWin = function(i, p) {
-  if([state[0][i] == p && state[1][i] == p && state[2][i]] == '+') {
+  if([state[0][i] == p && state[1][i] == p && state[2][i]] == " ") {
     return placePiece(2,i)
-  } else if([state[0][i] == p && state[1][i] =='+' && state[2][i]] == p) {
+  } else if([state[0][i] == p && state[1][i] == " " && state[2][i]] == p) {
     return placePiece(1,i)
-  } else if([state[0][i] == "+" && state[1][i] == p && state[2][i]] == p) {
+  } else if([state[0][i] == " " && state[1][i] == p && state[2][i]] == p) {
     return placePiece(0,i)
   }
 };
 
 var checkDiagonalIfSomeoneCanWin = function(p) {
-  if([state[0][0] == "+" && state[1][1] == p && state[2][2]] == p) {
+  if([state[0][0] == " " && state[1][1] == p && state[2][2]] == p) {
     return placePiece(0, 0);
-  } else if([state[0][0] == p && state[1][1] =='+' && state[2][2]] == p) {
+  } else if([state[0][0] == p && state[1][1] ==" " && state[2][2]] == p) {
     return placePiece(1, 1);
-  } else if([state[0][0] == p && state[1][1] == p && state[2][2]] == '+') {
+  } else if([state[0][0] == p && state[1][1] == p && state[2][2]] == " ") {
     return placePiece(2, 2);
-  } else if([state[2][0] == "+" && state[1][1] == p && state[0][2]] == p) {
+  } else if([state[2][0] == " " && state[1][1] == p && state[0][2]] == p) {
     return placePiece(2, 0);
-  } else if([state[2][0] == p && state[1][1] =='+' && state[0][2]] == p) {
+  } else if([state[2][0] == p && state[1][1] ==" " && state[0][2]] == p) {
     return placePiece(1, 1);
-  } else if([state[2][0] == p && state[1][1] == p && state[0][2]] == '+') {
+  } else if([state[2][0] == p && state[1][1] == p && state[0][2]] == " ") {
     return placePiece(0, 2);
   };
 };
@@ -66,30 +66,30 @@ var noPlayersHaveAdjacentPieces = function(p) {
   i = 0;
   while(i < 4) {
     for(n = 0; n < 3; n++) {
-      if(state[n] == "++"+p) {
+      if(state[n] == "  "+p) {
         return placePiece(n, 1);
-      } else if(state[n] == "+"+p+"+") {
+      } else if(state[n] == " "+p+" ") {
         return placePiece(n, 0);
-      } else if(state[n] == p+"++") {
+      } else if(state[n] == p+"  ") {
         return placePiece(n, 2);
       }
     }
-    if([state[0][i] == "+" && state[1][i] =='+' && state[2][i]] == p) {
+    if([state[0][i] == " " && state[1][i] ==" " && state[2][i]] == p) {
       return placePiece(1,i);
-    } else if([state[0][i] == p && state[1][i] =='+' && state[2][i]] == '+') {
+    } else if([state[0][i] == p && state[1][i] ==" " && state[2][i]] == " ") {
       return placePiece(1,i);
-    } else if([state[0][i] == "+" && state[1][i] == p && state[2][i]] == '+') {
+    } else if([state[0][i] == " " && state[1][i] == p && state[2][i]] == " ") {
       return placePiece(0,i);
-    } else if([state[0][i] == "+" && state[1][i+1] == p && state[2][i+2]] == '+') {
+    } else if([state[0][i] == " " && state[1][i+1] == p && state[2][i+2]] == " ") {
       return placePiece(0,i);
-    } else if([state[2][i] == "+" && state[1][i+1] == p && state[1][i+2]] == '+') {
+    } else if([state[2][i] == " " && state[1][i+1] == p && state[1][i+2]] == " ") {
       return placePiece(2,i);
     };
-    if([state[0][0] == "+" && state[1][1] == "+" && state[2][2]] == p){
+    if([state[0][0] == " " && state[1][1] == " " && state[2][2]] == p){
       placePiece(2, 2);
-    } else if([state[0][0] == "+" && state[1][1] == p && state[2][2]] == "+") {
+    } else if([state[0][0] == " " && state[1][1] == p && state[2][2]] == " ") {
       placePiece(1, 1);
-    } else if([state[0][0] == p && state[1][1] == "+" && state[2][2]] == "+") {
+    } else if([state[0][0] == p && state[1][1] == " " && state[2][2]] == " ") {
       placePiece(0, 0);
     };
     i++;
@@ -133,14 +133,14 @@ var computerMoves = function() {
 function pageLoad() {
   if(counter == 3){
     if(firstMove == 'computer') {
-      if($("#row3 .span-2").text() == '+') {
+      if($("#row3 .span-2").text() == " ") {
         return placePiece(2, 2);
       } else {
         return placePiece(1, 0);
       };
     } else {
       for(i = 0; i < 3; i++) {
-        if(state[i] == "+o+") {
+        if(state[i] == " o ") {
           return placePiece(i, 0);
         };
       };
@@ -180,7 +180,7 @@ function checkTie() {
   var space_left = 0
   while(i < 4) {
     for(n = 0; n < 3; n++) {
-      if($("#row" + i).text()[n] == "+") {
+      if($("#row" + i).text()[n] == " ") {
         space_left++;
       }
     };
@@ -250,7 +250,7 @@ $(function(){
   initialBoard();
   firstMove();
   $(".row span").click(function(e){
-    if($(e.currentTarget).text() === "+") {
+    if($(e.currentTarget).text() === " ") {
       $(e.currentTarget)[0].innerHTML = players[counter % 2];
       push_to_state();
     } else {
