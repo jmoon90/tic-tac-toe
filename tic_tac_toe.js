@@ -11,15 +11,6 @@ var firstTurn = ''
 var counter = 1;
 var players = ['o','x'];
 
-function checkIfAnyoneCanWin() {
-  if(state.length != 0){
-    this.checkRow();
-    this.checkColumn();
-    this.checkDiagonal();
-    return this.checkTie();
-  }
-}
-
 function placePiece(i,s) {
   counter++;
   var r = i+1;
@@ -33,6 +24,14 @@ function placePiece(i,s) {
   return new checkIfAnyoneCanWin();
 }
 
+function checkIfAnyoneCanWin() {
+  if(state.length != 0){
+    this.checkRow();
+    this.checkColumn();
+    this.checkDiagonal();
+    return this.checkTie();
+  }
+}
 
 checkIfAnyoneCanWin.prototype = {
   constructor:checkIfAnyoneCanWin,
@@ -91,10 +90,12 @@ checkIfAnyoneCanWin.prototype = {
 
 //class where computer places piece
 function AI(i, p) {
+  if(state.length == 6) {
+    state.splice(0, 3);
+  }
   this.checkRowIfSomeoneCanWin(i, p);
   this.checkColumnIfSomeoneCanWin(i, p);
   this.checkDiagonalIfSomeoneCanWin(i, p);
-  this.noPlayersHaveAdjacentPieces(i, p);
 }
 AI.prototype = {
   constructor:AI,
@@ -171,41 +172,44 @@ AI.prototype = {
       };
       i++;
     };
-  },
-  computerMoves:function(){
-    if(state.length == 6) {
-      state.splice(0, 3);
-    } else if (state.length == 9) {
-      state.splice(0, 6);
-    };
-    i = 0
-    while(i < 4) {
-      var x = 'x'
-      if(state.length != 0) {
-        //Call AI class function to check if someone can win
-        new AI(i, x);
-        i++;
-      }
-    };
+  }
+}
 
-    i = 0
-    while(i < 4) {
-      var o = 'o';
-      if(counter % 2 == 0) {
-        return;
-      } else {
-        new AI(i, o);
-      }
+function computerMoves(){
+  var x = 'x'
+  var o = 'o';
+  ai = new AI();
+
+  if(state.length == 6) {
+    state.splice(0, 3);
+  } else if (state.length == 9) {
+    state.splice(0, 6);
+  };
+  i = 0
+  while(i < 4) {
+    if(state.length != 0) {
+      //Call AI class function to check if someone can win
+      new AI(i, x);
       i++;
-    };
+    }
+  };
+
+  i = 0
+  while(i < 4) {
     if(counter % 2 == 0) {
       return;
     } else {
-      noPlayersHaveAdjacentPieces(i, 'x');
-      if(counter % 2 != 0) {
-        noPlayersHaveAdjacentPieces(i, 'o');
-      };
+      new AI(i, o);
     }
+    i++;
+  };
+  if(counter % 2 == 0) {
+    return;
+  } else {
+    ai.noPlayersHaveAdjacentPieces(i, x);
+    if(counter % 2 != 0) {
+      ai.noPlayersHaveAdjacentPieces(i, o);
+    };
   }
 }
 
@@ -226,19 +230,17 @@ function pageLoad() {
       return placePiece(1, 1);
     };
   } else if(counter == 5) {
-    ai = new AI;
-    ai.computerMoves();
+    computerMoves();
   } else if(counter == 7) {
-    ai = new AI;
-    ai.computerMoves();
+    computerMoves();
   } else if(counter == 9) {
     if(firstTurn == 'computer') {
-      ai = new AI;
-      ai.computerMoves();
+      computerMoves();
     } else {
-      ai = new AI;
-      ai.computerMoves();
+      computerMoves();
     };
+  } else if (counter == 11) {
+    return new checkIfAnyoneCanWin();
   };
 }
 pageLoad.prototype = {
@@ -281,7 +283,7 @@ function renderBoard() {
 }
 
 function gamePlay() {
-
+  this.board();
 }
 gamePlay.prototype = {
   constructor: gamePlay,
@@ -310,8 +312,7 @@ function countClick() {
 };
 
 function newGame() {
-  playGame = new gamePlay()
-  playGame.board();
+  new gamePlay()
   if($('#row1 .span-1').length != 0) {
     for(r = 1; r < 4; r++) {
       for(i = 0; i < 3; i++) {
