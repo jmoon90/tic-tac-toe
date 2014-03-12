@@ -1,7 +1,5 @@
-
-//var counter = Math.floor((Math.random()*2)+1);
-var counter = 1;
 var players = ['o','x'];
+var counter = Math.floor((Math.random()*2)+1);
 
 function RenderBoard() {
   this.state = [];
