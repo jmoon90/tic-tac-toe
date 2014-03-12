@@ -90,9 +90,10 @@ CheckGameResult.prototype = {
 
 //class where computer places piece
 function AI(i, p) {
-  if(state.length == 6) {
-    state.splice(0, 3);
+  if(boardState.state.length == 6) {
+    boardState.state.splice(0, 3);
   }
+  boardState = new RenderBoard();
   this.checkRowIfSomeoneCanWin(i, p);
   this.checkColumnIfSomeoneCanWin(i, p);
   this.checkDiagonalIfSomeoneCanWin(i, p);
@@ -100,76 +101,83 @@ function AI(i, p) {
 AI.prototype = {
   constructor:AI,
   checkRowIfSomeoneCanWin:function(i, p) {
-    if(state[i] == " " +p +p) {
-      return placePiece(i, 0);
-    } else if(state[i] == p+ " " +p) {
-      return placePiece(i, 1);
-    } else if(state[i] == p+ p+" ") {
-      return placePiece(i, 2);
+    if(boardState.state[i] == " " +p +p) {
+      return boardState.placePiece(i, 0);
+    } else if(boardState.state[i] == p+ " " +p) {
+      return boardState.placePiece(i, 1);
+    } else if(boardState.state[i] == p+ p+" ") {
+      return boardState.placePiece(i, 2);
     };
   },
   checkColumnIfSomeoneCanWin:function(i, p) {
-    if([state[0][i] == p && state[1][i] == p && state[2][i]] == " ") {
-      return placePiece(2,i)
-    } else if([state[0][i] == p && state[1][i] == " " && state[2][i]] == p) {
-      return placePiece(1,i)
-    } else if([state[0][i] == " " && state[1][i] == p && state[2][i]] == p) {
-      return placePiece(0,i)
+    if([boardState.state[0][i] == p && boardState.state[1][i] == p && boardState.state[2][i]] == " ") {
+      return boardState.placePiece(2,i)
+    } else if([boardState.state[0][i] == p && boardState.state[1][i] == " " && boardState.state[2][i]] == p) {
+      return boardState.placePiece(1,i)
+    } else if([boardState.state[0][i] == " " && boardState.state[1][i] == p && boardState.state[2][i]] == p) {
+      return boardState.placePiece(0,i)
     }
   },
   checkDiagonalIfSomeoneCanWin:function(i, p) {
-    if(state[0] == undefined){
+    if(boardState.state[0] == undefined){
       return;
     } else {
-      if([state[0][0] == " " && state[1][1] == p && state[2][2]] == p) {
-        return placePiece(0, 0);
-      } else if([state[0][0] == p && state[1][1] ==" " && state[2][2]] == p) {
-        return placePiece(1, 1);
-      } else if([state[0][0] == p && state[1][1] == p && state[2][2]] == " ") {
-        return placePiece(2, 2);
-      } else if([state[2][0] == " " && state[1][1] == p && state[0][2]] == p) {
-        return placePiece(2, 0);
-      } else if([state[2][0] == p && state[1][1] ==" " && state[0][2]] == p) {
-        return placePiece(1, 1);
-      } else if([state[2][0] == p && state[1][1] == p && state[0][2]] == " ") {
-        return placePiece(0, 2);
+      if([boardState.state[0][0] == " " && boardState.state[1][1] == p && boardState.state[2][2]] == p) {
+        return boardState.placePiece(0, 0);
+      } else if([boardState.state[0][0] == p && boardState.state[1][1] ==" " && boardState.state[2][2]] == p) {
+        return boardState.placePiece(1, 1);
+      } else if([boardState.state[0][0] == p && boardState.state[1][1] == p && boardState.state[2][2]] == " ") {
+        return boardState.placePiece(2, 2);
+      } else if([boardState.state[2][0] == " " && boardState.state[1][1] == p && boardState.state[0][2]] == p) {
+        return boardState.placePiece(2, 0);
+      } else if([boardState.state[2][0] == p && boardState.state[1][1] ==" " && boardState.state[0][2]] == p) {
+        return boardState.placePiece(1, 1);
+      } else if([boardState.state[2][0] == p && boardState.state[1][1] == p && boardState.state[0][2]] == " ") {
+        return boardState.placePiece(0, 2);
       };
     };
   },
   noPlayersHaveAdjacentPieces:function(i, p) {
     i = 0;
     while(i < 4) {
-      if(state[1][1] == " ") {
-        return placePiece(1, 1);
+      if(boardState.state[1][1] == " ") {
+        return boardState.placePiece(1, 1);
       } else {
         for(n = 0; n < 3; n++) {
-          if(state[n] == "  "+p) {
-            return placePiece(n, 1);
-          } else if(state[n] == " "+p+" ") {
-            return placePiece(n, 0);
-          } else if(state[n] == p+"  ") {
-            return placePiece(n, 2);
+          if(boardState.state[n] == "  "+p) {
+            return boardState.placePiece(n, 1);
+          } else if(boardState.state[n] == " "+p+" ") {
+            return boardState.placePiece(n, 0);
+          } else if(boardState.state[n] == p+"  ") {
+            return boardState.placePiece(n, 2);
           }
         }
       }
-      if([state[0][i] == " " && state[1][i] ==" " && state[2][i]] == p) {
-        return placePiece(1,i);
-      } else if([state[0][i] == p && state[1][i] ==" " && state[2][i]] == " ") {
-        return placePiece(1,i);
-      } else if([state[0][i] == " " && state[1][i] == p && state[2][i]] == " ") {
-        return placePiece(0,i);
-      } else if([state[0][i] == " " && state[1][i+1] == p && state[2][i+2]] == " ") {
-        return placePiece(0,i);
-      } else if([state[2][i] == " " && state[1][i+1] == p && state[1][i+2]] == " ") {
-        return placePiece(2,i);
+      if([boardState.state[0][i] == " " && boardState.state[1][i] ==" " && boardState.state[2][i]] == p) {
+        return boardState.placePiece(1,i);
+      } else if([boardState.state[0][i] == p && boardState.state[1][i] ==" " && boardState.state[2][i]] == " ") {
+        return boardState.placePiece(1,i);
+      } else if([boardState.state[0][i] == " " && boardState.state[1][i] == p && boardState.state[2][i]] == " ") {
+        return boardState.placePiece(0,i);
+      } else if([boardState.state[0][i] == " " && boardState.state[1][i+1] == p && boardState.state[2][i+2]] == " ") {
+        return boardState.placePiece(0,i);
+      } else if([boardState.state[2][i] == " " && boardState.state[1][i+1] == p && boardState.state[1][i+2]] == " ") {
+        return boardState.placePiece(2,i);
       };
-      if([state[0][0] == " " && state[1][1] == " " && state[2][2]] == p){
-        placePiece(2, 2);
-      } else if([state[0][0] == " " && state[1][1] == p && state[2][2]] == " ") {
-        placePiece(1, 1);
-      } else if([state[0][0] == p && state[1][1] == " " && state[2][2]] == " ") {
-        placePiece(0, 0);
+      if([boardState.state[0][0] == " " && boardState.state[1][1] == " " && boardState.state[2][2]] == p){
+        boardState.placePiece(2, 2);
+      } else if([boardState.state[0][0] == " " && boardState.state[1][1] == p && boardState.state[2][2]] == " ") {
+        boardState.placePiece(1, 1);
+      } else if([boardState.state[0][0] == p && boardState.state[1][1] == " " && boardState.state[2][2]] == " ") {
+        boardState.placePiece(0, 0);
       };
+      for(r=0; r < 3; r++) {
+        for(i = 0; i < 3; i++) {
+          if(boardState.state[r][i] == " ") {
+            boardState.placePiece(r,i);
+          }
+        }
+      }
       i++;
     };
   }
@@ -180,14 +188,14 @@ function computerMoves(){
   var o = 'o';
   ai = new AI();
 
-  if(state.length == 6) {
-    state.splice(0, 3);
-  } else if (state.length == 9) {
-    state.splice(0, 6);
+  if(boardState.state.length == 6) {
+    boardState.state.splice(0, 3);
+  } else if (boardState.state.length == 9) {
+    boardState.state.splice(0, 6);
   };
   i = 0
   while(i < 4) {
-    if(state.length != 0) {
+    if(boardState.state.length != 0) {
       //Call AI class function to check if someone can win
       new AI(i, x);
       i++;
