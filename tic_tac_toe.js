@@ -253,51 +253,56 @@ function PageLoad() {
 }
 
 
-function push_to_state() {
-  state.push($("#row1").text());
-  state.push($("#row2").text());
-  state.push($("#row3").text());
+function Board() {
+  this.initialBoard();
+  this.newBoard();
+  game.firstMove();
 }
+Board.prototype = {
+  constructor: Board,
+  initialBoard: function() {
+    var row_1 = document.getElementById('row1');
+    var row_2 = document.getElementById('row2');
+    var row_3 = document.getElementById('row3');
 
-function renderBoard() {
-  var row_1 = document.getElementById('row1');
-  var row_2 = document.getElementById('row2');
-  var row_3 = document.getElementById('row3');
+    var first_row = [" "," "," "];
+    var second_row = [" "," "," "];
+    var third_row = [" "," "," "];
 
-  this.rows = [row_1, row_2, row_3];
-  this.board = [first_row, second_row, third_row];
+    var rows = [row_1, row_2, row_3];
+    var board = [first_row, second_row, third_row];
 
-  if($('#row1 .span-1').length == 0) {
-    for(var row in rows) {
-      for(i = 0; i < 3; i++) {
-        var span = $('<span>').addClass('square span-'+i).html(board[row][i]);
-        $( '#row'+(Number(row)+1)).append(span);
+    if($('#row1 .span-1').length == 0) {
+      for(var row in rows) {
+        for(i = 0; i < 3; i++) {
+          var span = $('<span>').addClass('square span-'+i).html(board[row][i]);
+          $( '#row'+(Number(row)+1)).append(span);
+        };
       };
     };
-  };
-}
-
-function gamePlay() {
-  this.board();
-}
-gamePlay.prototype = {
-  constructor: gamePlay,
-  board:function() {
-    $(function(){
-      renderBoard();
-      $(".row span").on('click',function(e){
-        if($(e.currentTarget).text() === " ") {
-          this.innerHTML = players[counter % 2];
-          push_to_state();
-        } else {
-          if($(e.currentTarget).text() === "o"){
-            counter = counter++;
-          } else {
-            counter = counter - 1;
-          };
+    $(".row span").on('click',function(e){
+      if($(e.currentTarget).text() === " ") {
+        this.innerHTML = players[counter % 2];
+      } else {
+        if($(e.currentTarget).text() === "o" || $(e.currentTarget).text() === 'x'){
+          counter = counter++;
         };
       });
+      };
     });
+  },
+  newBoard: function() {
+    if($('#row1 .span-1').length != 0) {
+      for(r = 1; r < 4; r++) {
+        for(i = 0; i < 3; i++) {
+          $('#row'+r+ ' .span-'+i)[0].innerHTML = ' '
+        };
+      };
+    }
+    boardState = new RenderBoard;
+    if(boardState.state[0].length == 3){
+    var counter = Math.floor((Math.random()*2)+1);
+    }
   }
 }
 
