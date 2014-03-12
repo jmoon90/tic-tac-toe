@@ -20,8 +20,8 @@ RenderBoard.prototype = {
     $('#row'+r+ ' .span-'+s).fadeIn(1000);
     return new CheckGameResult();
   }
-  return new checkIfAnyoneCanWin();
 }
+var boardState = new RenderBoard();
 
 function CheckGameResult() {
     this.computer_wins = 'xxx';
@@ -219,21 +219,23 @@ function computerMoves(){
   }
 }
 
-function pageLoad() {
+function PageLoad() {
+  var firstTurn = ''
+  boardState = new RenderBoard
   if(counter == 3){
     if(firstTurn == 'computer') {
       if($("#row3 .span-2").text() == " ") {
-        return placePiece(2, 2);
+        return boardState.placePiece(2, 2);
       } else {
-        return placePiece(1, 0);
+        return boardState.placePiece(1, 0);
       };
     } else {
       for(i = 0; i < 3; i++) {
-        if(state[i] == " o ") {
-          return placePiece(i, 0);
+        if(boardState.state[i] == " o ") {
+          return boardState.placePiece(i, 0);
         };
       };
-      return placePiece(1, 1);
+      return boardState.placePiece(1, 1);
     };
   } else if(counter == 5) {
     computerMoves();
@@ -246,22 +248,9 @@ function pageLoad() {
       computerMoves();
     };
   } else if (counter == 11) {
-    return new checkIfAnyoneCanWin();
+    return new CheckGameResult();
   };
 }
-pageLoad.prototype = {
-  constructor:pageLoad,
-  firstMove:function() {
-    if(players[counter % 2] == 'x'){
-      alert("Computer goes first");
-      firstTurn = 'computer';
-      placePiece(0,0);
-    } else {
-      firstTurn = 'player'
-      alert("Player goes first");
-    };
-  }
-};
 
 
 function push_to_state() {
