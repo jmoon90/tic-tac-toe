@@ -287,7 +287,6 @@ Board.prototype = {
         if($(e.currentTarget).text() === "o" || $(e.currentTarget).text() === 'x'){
           counter = counter++;
         };
-      });
       };
     });
   },
@@ -306,26 +305,27 @@ Board.prototype = {
   }
 }
 
-
 function countClick() {
   counter++;
 };
 
-function newGame() {
-  new gamePlay()
-  if($('#row1 .span-1').length != 0) {
-    for(r = 1; r < 4; r++) {
-      for(i = 0; i < 3; i++) {
-        $('#row'+r+ ' .span-'+i)[0].innerHTML = ' '
-      };
+function Game() {
+  $(function(){
+    new Board();
+  });
+}
+Game.prototype = {
+  constructor:Game,
+  firstMove:function() {
+    if(players[counter % 2] == 'x'){
+      alert("Computer goes first");
+      firstTurn = 'computer';
+      boardState.placePiece(0,0);
+    } else {
+      firstTurn = 'player'
+      alert("Player goes first");
     };
   }
-  state = []
-  if(state.length == 0){
-    counter = 2;
-  }
-}
+};
 
-newGame();
-playGame = new pageLoad();
-playGame.firstMove();
+var game = new Game();
