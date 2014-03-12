@@ -11,15 +11,24 @@ var firstTurn = ''
 var counter = 1;
 var players = ['o','x'];
 
-function placePiece(i,s) {
-  counter++;
-  var r = i+1;
-  $('#row'+r+ ' .span-'+s).hide();
-  $('#row'+r+ ' .span-'+s)[0].innerHTML = 'x';
-  $('#row'+r+ ' .span-'+s).fadeIn(1000);
-  push_to_state();
-  if(state.length == 6) {
-    state.splice(0, 3);
+function RenderBoard() {
+  this.state = [];
+  this.updateState();
+}
+RenderBoard.prototype = {
+  constructor: RenderBoard,
+  updateState:function() {
+    this.state.push($("#row1").text());
+    this.state.push($("#row2").text());
+    this.state.push($("#row3").text());
+  },
+  placePiece:function(i, s) {
+    counter++;
+    var r = i+1;
+    $('#row'+r+ ' .span-'+s).hide();
+    $('#row'+r+ ' .span-'+s)[0].innerHTML = 'x';
+    $('#row'+r+ ' .span-'+s).fadeIn(1000);
+    return new CheckGameResult();
   }
   return new checkIfAnyoneCanWin();
 }
