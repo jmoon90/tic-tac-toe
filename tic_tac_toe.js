@@ -25,23 +25,22 @@ RenderBoard.prototype = {
   return new checkIfAnyoneCanWin();
 }
 
-function checkIfAnyoneCanWin() {
-  if(state.length != 0){
+function CheckGameResult() {
+    this.computer_wins = 'xxx';
+    boardState = new RenderBoard();
     this.checkRow();
     this.checkColumn();
     this.checkDiagonal();
     return this.checkTie();
-  }
 }
-
-checkIfAnyoneCanWin.prototype = {
-  constructor:checkIfAnyoneCanWin,
+CheckGameResult.prototype = {
+  constructor:CheckGameResult,
   checkTie:function() {
-    i = 1
+    i = 0
     var space_left = 0
-    while(i < 4) {
+    while(i < 3) {
       for(n = 0; n < 3; n++) {
-        if($("#row" + i).text()[n] == " ") {
+        if(boardState.state[i][n] == " ") {
           space_left++;
         }
       };
@@ -50,15 +49,15 @@ checkIfAnyoneCanWin.prototype = {
     if(space_left == 0) {
       answer = confirm("Tie game! Nobody wins. Play again?") 
       if(answer == true){
-        newGame();
+        new Game;
       };
     };
   },
   checkRow:function() {
-    if($("#row1").text() == computer_wins || $("#row2").text() == computer_wins || $("#row3").text() == computer_wins) {
+    if(boardState.state[0] == this.computer_wins || boardState.state[1] == this.computer_wins || boardState.state[2] == this.computer_wins) {
       answer = confirm("Computer wins. Play again?");
       if(answer == true){
-        newGame();
+        new Game;
       }
     } else {
       return
@@ -67,23 +66,23 @@ checkIfAnyoneCanWin.prototype = {
   checkColumn:function() {
     i = 0
     while(i < 3) {
-      var column = state[0][i] + state[1][i] + state[2][i]
-      if(column == computer_wins) {
+      var column = boardState.state[0][i] + boardState.state[1][i] + boardState.state[2][i]
+      if(column == this.computer_wins) {
         answer = confirm("Computer wins. Play again?");
         if(answer == true){
-          newGame();
+          new Game;
         };
       };
       i++
     }
   },
   checkDiagonal:function() {
-    var diagonal_right = state[0][0] + state[1][1] + state[2][2]
-    var diagonal_left = state[0][2] + state[1][1] + state[2][0]
-    if(diagonal_right == computer_wins || diagonal_left == computer_wins) {
+    var diagonal_right = boardState.state[0][0] + boardState.state[1][1] + boardState.state[2][2]
+    var diagonal_left = boardState.state[0][2] + boardState.state[1][1] + boardState.state[2][0]
+    if(diagonal_right == this.computer_wins || diagonal_left == this.computer_wins) {
       answer = confirm("Computer wins. Play Again?");
       if(answer == true){
-        newGame();
+        new Game;
       };
     }
   }
