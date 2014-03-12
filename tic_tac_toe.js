@@ -1,11 +1,3 @@
-var first_row = [" "," "," "];
-var second_row = [" "," "," "];
-var third_row = [" "," "," "];
-
-var computer_wins = 'xxx';
-var player_wins = 'ooo';
-var state = []; // current state of board
-var firstTurn = ''
 
 //var counter = Math.floor((Math.random()*2)+1);
 var counter = 1;
