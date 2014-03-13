@@ -29,3 +29,7 @@
     clear: both;
     display: table;
 }
+
+#title {
+  width: 400px;
+}
