@@ -1,10 +1,27 @@
-var players = ['o','x'];
-var counter = Math.floor((Math.random()*2)+1);
+function Game() {
+  $(function(){
+    new Board();
+  });
+}
+Game.prototype = {
+  constructor:Game,
+  firstMove:function() {
+    if(players[counter % 2] == 'x'){
+      alert("Computer goes first");
+      firstTurn = 'computer';
+      boardState.placePiece(0,0);
+    } else {
+      firstTurn = 'player'
+      alert("Player goes first");
+    };
+  }
+};
 
 function RenderBoard() {
   this.state = [];
   this.updateState();
 }
+
 RenderBoard.prototype = {
   constructor: RenderBoard,
   updateState:function() {
@@ -21,16 +38,66 @@ RenderBoard.prototype = {
     return new CheckGameResult();
   }
 }
-var boardState = new RenderBoard();
+
+function Board() {
+  this.initialBoard();
+  this.newBoard();
+  game.firstMove();
+}
+
+Board.prototype = {
+  constructor: Board,
+  initialBoard: function() {
+    var row_1 = document.getElementById('row1'),
+        row_2 = document.getElementById('row2'),
+        row_3 = document.getElementById('row3'),
+        first_row = [" "," "," "],
+        second_row = [" "," "," "],
+        third_row = [" "," "," "],
+        rows = [row_1, row_2, row_3],
+        board = [first_row, second_row, third_row];
+    if($('#row1 .span-1').length == 0) {
+      for(var row in rows) {
+        for(i = 0; i < 3; i++) {
+          var span = $('<span>').addClass('square span-'+i).html(board[row][i]);
+          $( '#row'+(Number(row)+1)).append(span);
+        };
+      };
+    };
+    $(".row span").on('click',function(e){
+      if($(e.currentTarget).text() === " ") {
+        this.innerHTML = players[counter % 2];
+      } else {
+        if($(e.currentTarget).text() === "o" || $(e.currentTarget).text() === 'x'){
+          counter = counter++;
+        };
+      };
+    });
+  },
+  newBoard: function() {
+    boardState = new RenderBoard();
+    if($('#row1 .span-1').length != 0) {
+      for(r = 1; r < 4; r++) {
+        for(i = 0; i < 3; i++) {
+          $('#row'+r+ ' .span-'+i)[0].innerHTML = ' ';
+        };
+      };
+    }
+    if(boardState.state[0].length == 3){
+    counter = Math.floor((Math.random()*2)+1);
+    }
+  }
+}
 
 function CheckGameResult() {
-    this.computer_wins = 'xxx';
-    boardState = new RenderBoard();
-    this.checkRow();
-    this.checkColumn();
-    this.checkDiagonal();
-    return this.checkTie();
+  boardState = new RenderBoard();
+  this.computer_wins = 'xxx';
+  this.checkRow();
+  this.checkColumn();
+  this.checkDiagonal();
+  return this.checkTie();
 }
+
 CheckGameResult.prototype = {
   constructor:CheckGameResult,
   checkTie:function() {
@@ -75,8 +142,8 @@ CheckGameResult.prototype = {
     }
   },
   checkDiagonal:function() {
-    var diagonal_right = boardState.state[0][0] + boardState.state[1][1] + boardState.state[2][2]
-    var diagonal_left = boardState.state[0][2] + boardState.state[1][1] + boardState.state[2][0]
+    var diagonal_right = boardState.state[0][0] + boardState.state[1][1] + boardState.state[2][2],
+        diagonal_left = boardState.state[0][2] + boardState.state[1][1] + boardState.state[2][0];
     if(diagonal_right == this.computer_wins || diagonal_left == this.computer_wins) {
       answer = confirm("Computer wins. Play Again?");
       if(answer == true){
@@ -86,16 +153,17 @@ CheckGameResult.prototype = {
   }
 }
 
-//class where computer places piece
+//computer places piece
 function AI(i, p) {
+  boardState = new RenderBoard();
   if(boardState.state.length == 6) {
     boardState.state.splice(0, 3);
   }
-  boardState = new RenderBoard();
   this.checkRowIfSomeoneCanWin(i, p);
   this.checkColumnIfSomeoneCanWin(i, p);
   this.checkDiagonalIfSomeoneCanWin(i, p);
 }
+
 AI.prototype = {
   constructor:AI,
   checkRowIfSomeoneCanWin:function(i, p) {
@@ -172,7 +240,7 @@ AI.prototype = {
       for(r=0; r < 3; r++) {
         for(i = 0; i < 3; i++) {
           if(boardState.state[r][i] == " ") {
-            boardState.placePiece(r,i);
+            return boardState.placePiece(r,i);
           }
         }
       }
@@ -182,10 +250,9 @@ AI.prototype = {
 }
 
 function computerMoves(){
-  var x = 'x'
-  var o = 'o';
-  ai = new AI();
-
+  var x = 'x',
+      o = 'o',
+      ai = new AI();
   if(boardState.state.length == 6) {
     boardState.state.splice(0, 3);
   } else if (boardState.state.length == 9) {
@@ -194,12 +261,10 @@ function computerMoves(){
   i = 0
   while(i < 4) {
     if(boardState.state.length != 0) {
-      //Call AI class function to check if someone can win
       new AI(i, x);
       i++;
     }
   };
-
   i = 0
   while(i < 4) {
     if(counter % 2 == 0) {
@@ -220,11 +285,11 @@ function computerMoves(){
 }
 
 function PageLoad() {
-  var firstTurn = ''
-  boardState = new RenderBoard
+  var firstTurn = '';
+      boardState = new RenderBoard();
   if(counter == 3){
     if(firstTurn == 'computer') {
-      if($("#row3 .span-2").text() == " ") {
+      if(boardState.state[1][1] == " ") {
         return boardState.placePiece(2, 2);
       } else {
         return boardState.placePiece(1, 0);
@@ -237,95 +302,18 @@ function PageLoad() {
       };
       return boardState.placePiece(1, 1);
     };
-  } else if(counter == 5) {
+  } else if(counter == 5 || counter == 7 || counter == 9) {
     computerMoves();
-  } else if(counter == 7) {
-    computerMoves();
-  } else if(counter == 9) {
-    if(firstTurn == 'computer') {
-      computerMoves();
-    } else {
-      computerMoves();
-    };
   } else if (counter == 11) {
     return new CheckGameResult();
   };
 }
 
-
-function Board() {
-  this.initialBoard();
-  this.newBoard();
-  game.firstMove();
-}
-Board.prototype = {
-  constructor: Board,
-  initialBoard: function() {
-    var row_1 = document.getElementById('row1');
-    var row_2 = document.getElementById('row2');
-    var row_3 = document.getElementById('row3');
-
-    var first_row = [" "," "," "];
-    var second_row = [" "," "," "];
-    var third_row = [" "," "," "];
-
-    var rows = [row_1, row_2, row_3];
-    var board = [first_row, second_row, third_row];
-
-    if($('#row1 .span-1').length == 0) {
-      for(var row in rows) {
-        for(i = 0; i < 3; i++) {
-          var span = $('<span>').addClass('square span-'+i).html(board[row][i]);
-          $( '#row'+(Number(row)+1)).append(span);
-        };
-      };
-    };
-    $(".row span").on('click',function(e){
-      if($(e.currentTarget).text() === " ") {
-        this.innerHTML = players[counter % 2];
-      } else {
-        if($(e.currentTarget).text() === "o" || $(e.currentTarget).text() === 'x'){
-          counter = counter++;
-        };
-      };
-    });
-  },
-  newBoard: function() {
-    if($('#row1 .span-1').length != 0) {
-      for(r = 1; r < 4; r++) {
-        for(i = 0; i < 3; i++) {
-          $('#row'+r+ ' .span-'+i)[0].innerHTML = ' '
-        };
-      };
-    }
-    boardState = new RenderBoard;
-    if(boardState.state[0].length == 3){
-    var counter = Math.floor((Math.random()*2)+1);
-    }
-  }
-}
-
 function countClick() {
   counter++;
 };
-
-function Game() {
-  $(function(){
-    new Board();
-  });
-}
-Game.prototype = {
-  constructor:Game,
-  firstMove:function() {
-    if(players[counter % 2] == 'x'){
-      alert("Computer goes first");
-      firstTurn = 'computer';
-      boardState.placePiece(0,0);
-    } else {
-      firstTurn = 'player'
-      alert("Player goes first");
-    };
-  }
-};
-
-var game = new Game();
+//global variables
+var players = ['o','x'],
+    counter = Math.floor((Math.random()*2)+1),
+    game = new Game(),
+    boardState = new RenderBoard();
