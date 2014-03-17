@@ -3,6 +3,7 @@ function Game() {
     new Board();
   });
 }
+
 Game.prototype = {
   constructor:Game,
   firstMove:function() {
@@ -75,7 +76,6 @@ Board.prototype = {
     });
   },
   newBoard: function() {
-    boardState = new RenderBoard();
     if($('#row1 .span-1').length != 0) {
       for(r = 1; r < 4; r++) {
         for(i = 0; i < 3; i++) {
@@ -85,6 +85,7 @@ Board.prototype = {
     }
     if(boardState.state[0].length == 3){
     counter = Math.floor((Math.random()*2)+1);
+    boardState = new RenderBoard();
     }
   }
 }
@@ -208,13 +209,15 @@ AI.prototype = {
     while(i < 4) {
       if(boardState.state[1][1] == " ") {
         return boardState.placePiece(1, 1);
+      } else if(boardState.state[1][2] == 'o' && boardState.state[2][1] == 'o' && boardState.state[2][2] == " ") {
+        return boardState.placePiece(2,2);
       } else {
         for(n = 0; n < 3; n++) {
-          if(boardState.state[n] == "  "+p) {
+          if(boardState.state[n] == "  " +p) {
             return boardState.placePiece(n, 1);
-          } else if(boardState.state[n] == " "+p+" ") {
+          } else if(boardState.state[n] == " " +p+ " ") {
             return boardState.placePiece(n, 0);
-          } else if(boardState.state[n] == p+"  ") {
+          } else if(boardState.state[n] == p+ "  ") {
             return boardState.placePiece(n, 2);
           }
         }
@@ -231,11 +234,18 @@ AI.prototype = {
         return boardState.placePiece(2,i);
       };
       if([boardState.state[0][0] == " " && boardState.state[1][1] == " " && boardState.state[2][2]] == p){
-        boardState.placePiece(2, 2);
+        return boardState.placePiece(2, 2);
       } else if([boardState.state[0][0] == " " && boardState.state[1][1] == p && boardState.state[2][2]] == " ") {
-        boardState.placePiece(1, 1);
+        return boardState.placePiece(1, 1);
       } else if([boardState.state[0][0] == p && boardState.state[1][1] == " " && boardState.state[2][2]] == " ") {
-        boardState.placePiece(0, 0);
+        return boardState.placePiece(0, 0);
+      };
+      if([boardState.state[0][2] == " " && boardState.state[1][1] == " " && boardState.state[2][0]] == p){
+        return boardState.placePiece(0, 2);
+      } else if([boardState.state[0][2] == " " && boardState.state[1][1] == p && boardState.state[2][0]] == " ") {
+        return boardState.placePiece(0, 2);
+      } else if([boardState.state[0][2] == p && boardState.state[1][1] == " " && boardState.state[2][0]] == " ") {
+        return boardState.placePiece(2, 0);
       };
       for(r=0; r < 3; r++) {
         for(i = 0; i < 3; i++) {
@@ -291,16 +301,13 @@ function PageLoad() {
     if(firstTurn == 'computer') {
       if(boardState.state[1][1] == " ") {
         return boardState.placePiece(2, 2);
-      } else {
-        return boardState.placePiece(1, 0);
       };
     } else {
-      for(i = 0; i < 3; i++) {
-        if(boardState.state[i] == " o ") {
-          return boardState.placePiece(i, 0);
-        };
+      if(boardState.state[1][1] == " ") {
+        return boardState.placePiece(1, 1);
+      } else {
+        return boardState.placePiece(0, 0);
       };
-      return boardState.placePiece(1, 1);
     };
   } else if(counter == 5 || counter == 7 || counter == 9) {
     computerMoves();
