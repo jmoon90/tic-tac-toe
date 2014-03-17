@@ -295,11 +295,13 @@ function computerMoves(){
 }
 
 function PageLoad() {
-  var firstTurn = '';
       boardState = new RenderBoard();
+debugger
   if(counter == 3){
     if(firstTurn == 'computer') {
       if(boardState.state[1][1] == " ") {
+        return boardState.placePiece(1, 1);
+      } else {
         return boardState.placePiece(2, 2);
       };
     } else {
@@ -323,4 +325,5 @@ function countClick() {
 var players = ['o','x'],
     counter = Math.floor((Math.random()*2)+1),
     game = new Game(),
-    boardState = new RenderBoard();
+    boardState = new RenderBoard(),
+    firstTurn = '';
