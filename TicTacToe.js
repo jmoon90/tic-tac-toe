@@ -52,11 +52,9 @@ Board.prototype = {
     var row_1 = document.getElementById('row1'),
         row_2 = document.getElementById('row2'),
         row_3 = document.getElementById('row3'),
-        first_row = [" "," "," "],
-        second_row = [" "," "," "],
-        third_row = [" "," "," "],
+        arr = [[" "," "," "],[" "," "," "],[" "," "," "]]
         rows = [row_1, row_2, row_3],
-        board = [first_row, second_row, third_row];
+        board = [arr[0], arr[1], arr[2]];
     if($('#row1 .span-1').length == 0) {
       for(var row in rows) {
         for(i = 0; i < 3; i++) {
